@@ -1,0 +1,16 @@
+<button
+  pButton
+  [class]="
+    ' w-full !py-3.5 !rounded-xl font-bold bg-gradient-to-r from-primary-600 to-primary-500 border-none shadow-lg shadow-primary-500/25 ' +
+    (styleClass() ?? '')
+  "
+  [severity]="color()"
+  [rounded]="rounded()"
+  [disabled]="disabled() || loading()"
+  [loading]="loading()"
+  [outlined]="outlined()"
+  [type]="type()"
+  (click)="Click()"
+>
+  {{ label() | translate }}
+</button>
