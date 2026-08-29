@@ -1,103 +1,94 @@
-<p-floatlabel [variant]="variant">
+<p-floatlabel [variant]="variant()">
   <p-iconfield>
     @if (isPrefix()) {
       <p-inputicon>
-        <ng-content select=".prefixIcon"></ng-content>
+        <ng-content select=".prefixIcon" />
       </p-inputicon>
     }
 
-    <!-- text input  -->
-    @if (type() == 'text') {
+    <!-- text / email input -->
+    @if (type() === 'text' || type() === 'email') {
       <input
         pInputText
-        [class]="styleClass()"
-        [class.p-filled]="control().value"
-        [step]="step()"
+        [formField]="field()"
         [type]="type()"
-        [id]="id() ? 'str' + id() : 'str_' + uniqueId + label()"
-        [formControl]="control()"
-        [readonly]="readonly()"
-        [autocomplete]="autocomplete()"
-        (keyup)="onkeyup($event.target)"
-        (keydown)="onkeydown($event.target)"
-        (keypress)="onkeypress($event.target)"
-        (keyup.enter)="onKeyEnter($event.target)"
-        (blur)="onBlur($event.target)"
-        (change)="onChange($event.target)"
-        class="w-full pl-11 pr-4 py-3 border-surface-200 text-surface-900 rounded-xl focus:border-primary-500 shadow-sm"
+        [id]="inputId()"
+        [step]="step()"
+        [autocomplete]="autocomplete() ?? ''"
+        [class.p-filled]="hasValue()"
+        [attr.aria-invalid]="showError()"
+        [attr.aria-describedby]="showError() ? errorId() : null"
+        [attr.placeholder]="placeholder() | translate"
+        (keyup.enter)="onKeyEnter()"
       />
     }
 
     <!-- number input -->
-    @else if (type() == 'number') {
+    @else if (type() === 'number') {
       <p-inputnumber
-        [class]="styleClass()"
+        [formField]="field()"
+        [id]="inputId()"
         [step]="step()"
-        [id]="id() ? 'number' + id() : 'number_' + uniqueId + label()"
-        [formControl]="control()"
-        [autocomplete]="autocomplete()"
+        [autocomplete]="autocomplete() ?? ''"
         [showButtons]="true"
-        [readonly]="readonly() || disabled()"
-        [class.readonly-inputNumber]="readonly()"
         [maxFractionDigits]="isDecimalNumber() ? 10 : null"
         [format]="isDecimalNumber()"
+        [attr.aria-invalid]="showError()"
+        [attr.aria-describedby]="showError() ? errorId() : null"
         incrementButtonClass="incClass"
         decrementButtonClass="decClass"
-        class="w-100 {{ disabled() ? 'bg-disabled' : '' }}"
-        (onInput)="_onInput(control().value)"
-        (keyup)="onkeyup($event.target)"
-        (keydown)="onkeydown($event.target)"
-        (keypress)="onkeypress($event.target)"
-        (keyup.enter)="onKeyEnter($event.target)"
-        (onBlur)="onBlur($event.target)"
-        (onFocus)="onFocus($event.target)"
-        (change)="onChange($event.target)"
-        class="w-full pl-11 pr-4 py-3 border-surface-200 text-surface-900 rounded-xl focus:border-primary-500 shadow-sm"
-      >
-      </p-inputnumber>
-    }
-
-    <!-- number password -->
-    @else if (type() == 'password') {
-      <input
-        pInputPassword
-        [size]="inputSize"
-        [formControl]="control()"
-        [mask]="true"
-        [class]="styleClass()"
-        [fluid]="true"
-        [id]="id() ? 'pass' + id() : 'pass_' + uniqueId + label()"
-        [autocomplete]="autocomplete()"
-        (keyup)="onkeyup($event.target)"
-        (keydown)="onkeydown($event.target)"
-        (keypress)="onkeypress($event.target)"
-        (keyup.enter)="onKeyEnter($event.target)"
-        (blur)="onBlur($event.target)"
-        (change)="onChange($event.target)"
-        class="w-full pl-11 pr-4 py-3 border-surface-200 text-surface-900 rounded-xl focus:border-primary-500 shadow-sm"
+        (keyup.enter)="onKeyEnter()"
       />
     }
 
-    <p-inputicon>
-      @if (isSuffix()) {
-        <ng-content select=".suffixIcon"></ng-content>
-      }
-    </p-inputicon>
+    <!-- password input -->
+    @else if (type() === 'password') {
+      <input
+        pInputPassword
+        [formField]="field()"
+        [mask]="true"
+        [id]="inputId()"
+        [autocomplete]="autocomplete() ?? ''"
+        [class.p-filled]="hasValue()"
+        [attr.aria-invalid]="showError()"
+        [attr.aria-describedby]="showError() ? errorId() : null"
+        [attr.placeholder]="placeholder() | translate"
+        (keyup.enter)="onKeyEnter()"
+      />
+    }
+
+    @if (isSuffix()) {
+      <p-inputicon>
+        <ng-content select=".suffixIcon" />
+      </p-inputicon>
+    }
   </p-iconfield>
-  <label [for]="id() ? 'str' + id() : 'str_' + uniqueId + label()">
+
+  <label [for]="inputId()">
     {{ label() | translate }}
   </label>
 </p-floatlabel>
 
-<!-- </div>
-<div class="input-error">
-  <input-validation-msg [control]="control()" [submitted]="submitted()">
-    <ng-container class="before">
-      <ng-content select=".msg-before"></ng-content>
-    </ng-container>
-
-    <ng-container class="after">
-      <ng-content select=".msg-after"></ng-content>
-    </ng-container>
-  </input-validation-msg>
-</div> -->
+<!-- Validation error message -->
+@if (showError()) {
+  <div
+    [id]="errorId()"
+    role="alert"
+    class="text-red-500 text-xs font-medium mt-1.5 ml-1 flex items-center gap-1"
+  >
+    <svg
+      class="w-3.5 h-3.5 shrink-0"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+        clip-rule="evenodd"
+      />
+    </svg>
+    <span>{{ errorMessage() | translate }}</span>
+  </div>
+}

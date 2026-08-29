@@ -2,21 +2,66 @@
 
 ## Description
 
-A multi-purpose input component that handles text, number, and password types with built-in validation messages. It integrates with Angular Reactive Forms and supports floating labels.
+A reusable input component built on **Angular 22 Signal Forms**. Supports text, email, password, and number input types with centralized validation error display, PrimeNG theming, and floating labels.
+
+The component accepts a Signal Forms `Field` and automatically handles:
+- Two-way value binding via `[formField]`
+- Validation error display via `ValidationMessageService`
+- Accessibility (aria-invalid, aria-describedby, label association)
+- Required/disabled/readonly state from the Field
 
 ## Usage
 
 ```html
-<app-input label="username" [control]="form.controls.username" [submitted]="submitted"></app-input> <app-input label="password" type="password" [control]="form.controls.password"></app-input>
+<!-- Basic text input -->
+<app-input [field]="myForm.name" label="FORM.NAME" />
+
+<!-- Email with prefix icon -->
+<app-input [field]="myForm.email" label="FORM.EMAIL" type="email" [isPrefix]="true">
+  <div class="prefixIcon"><svg data-p-icon="Envelope"></svg></div>
+</app-input>
+
+<!-- Password -->
+<app-input [field]="myForm.password" label="FORM.PASSWORD" type="password" />
+
+<!-- Number with decimals -->
+<app-input [field]="myForm.price" label="FORM.PRICE" type="number" [isDecimalNumber]="true" />
 ```
 
 ## Inputs
 
-| Input         | Type          | Description                                                  |
-| ------------- | ------------- | ------------------------------------------------------------ |
-| `label`       | `string`      | Translation key for the floating label.                      |
-| `control`     | `FormControl` | The FormControl instance.                                    |
-| `type`        | `string`      | Type of input ('text', 'number', 'password', 'email', etc.). |
-| `submitted`   | `boolean`     | Boolean to trigger validation message display.               |
-| `disabled`    | `boolean`     | Boolean to toggle disabled state.                            |
-| `placeholder` | `string`      | Helper text shown when empty.                                |
+| Input           | Type                                       | Default  | Description                                   |
+| --------------- | ------------------------------------------ | -------- | --------------------------------------------- |
+| `field`         | `Field<string> \| Field<number>` (required) | —        | The Signal Forms field to bind.               |
+| `label`         | `string`                                    | `''`     | Translation key for the floating label.       |
+| `type`          | `'text' \| 'password' \| 'number' \| 'email'` | `'text'` | Input type.                                   |
+| `placeholder`   | `string`                                    | —        | Placeholder text.                             |
+| `isPrefix`      | `boolean`                                   | `false`  | Show prefix icon slot.                        |
+| `isSuffix`      | `boolean`                                   | `false`  | Show suffix icon slot.                        |
+| `autocomplete`  | `string`                                    | —        | HTML autocomplete attribute.                  |
+| `step`          | `number`                                    | `1`      | Step value for number inputs.                 |
+| `isDecimalNumber` | `boolean`                                 | `false`  | Allow decimal numbers.                        |
+| `variant`       | `'on' \| 'in' \| 'over'`                   | `'on'`   | PrimeNG FloatLabel variant.                   |
+
+## Outputs
+
+| Output     | Type   | Description                     |
+| ---------- | ------ | ------------------------------- |
+| `keyEnter` | `void` | Emitted on Enter key press.     |
+
+## Validation
+
+Validation rules are defined in the **form**, not in the input:
+
+```typescript
+import { form, required, email, minLength } from '@angular/forms/signals';
+
+loginForm = form(this.loginModel, (s) => {
+  required(s.email);
+  email(s.email);
+  required(s.password);
+  minLength(s.password, 8);
+});
+```
+
+Error messages are centralized in `ValidationMessageService`. Adding a new error kind requires only adding an entry to the service — no form or input changes needed.
