@@ -7,5 +7,12 @@ import { ButtonDirective } from 'primeng/button';
   imports: [ButtonDirective, TranslatePipe],
   selector: 'app-button',
   templateUrl: './button.html',
+  styles: [
+    `
+      .p-button:disabled {
+        cursor: not-allowed;
+      }
+    `,
+  ],
 })
 export class Button extends BaseButton {}
