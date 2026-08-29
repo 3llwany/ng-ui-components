@@ -46,7 +46,7 @@
       <input
         pInputPassword
         [formField]="field()"
-        [mask]="true"
+        [mask]="mask"
         [id]="inputId()"
         [autocomplete]="autocomplete() ?? ''"
         [class.p-filled]="hasValue()"
@@ -55,6 +55,13 @@
         [attr.placeholder]="placeholder() | translate"
         (keyup.enter)="onKeyEnter()"
       />
+      <p-inputicon (click)="mask = !mask" style="cursor: pointer">
+        @if (mask) {
+          <svg data-p-icon="eye"></svg>
+        } @else {
+          <svg data-p-icon="eye-slash"></svg>
+        }
+      </p-inputicon>
     }
 
     @if (isSuffix()) {

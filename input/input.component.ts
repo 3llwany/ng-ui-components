@@ -8,7 +8,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputPasswordModule } from 'primeng/inputpassword';
 import { InputText } from 'primeng/inputtext';
 import { ValidationMessageService } from '@core/services/validation-message.service';
-
+import { Eye } from '@primeicons/angular/eye';
+import { EyeSlash } from '@primeicons/angular/eye-slash';
 /**
  * Reusable input component built on Angular 22 Signal Forms.
  *
@@ -38,9 +39,13 @@ import { ValidationMessageService } from '@core/services/validation-message.serv
     FloatLabel,
     IconField,
     InputIcon,
+    Eye,
+    EyeSlash,
   ],
 })
 export class Input {
+  mask: boolean = true;
+
   // ── Injections ──
   private readonly validationService = inject(ValidationMessageService);
 
