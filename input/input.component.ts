@@ -10,6 +10,7 @@ import { InputText } from 'primeng/inputtext';
 import { ValidationMessageService } from '@core/services/validation-message.service';
 import { Eye } from '@primeicons/angular/eye';
 import { EyeSlash } from '@primeicons/angular/eye-slash';
+import { APP_VARIANT } from '@shared/ui/tokens/input-config';
 /**
  * Reusable input component built on Angular 22 Signal Forms.
  *
@@ -86,7 +87,7 @@ export class Input {
   readonly isDecimalNumber = input(false);
 
   /** PrimeNG FloatLabel variant. */
-  readonly variant = input<'on' | 'in' | 'over'>('on');
+readonly variant = computed(() => APP_VARIANT());
 
   // ── Outputs ──
 
