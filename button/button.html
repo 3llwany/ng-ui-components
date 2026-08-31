@@ -13,5 +13,7 @@
   [type]="type()"
   (click)="Click()"
 >
+  <ng-content select=".prefixIcon" />
   {{ label() | translate }}
+    <ng-content select=".suffixIcon" />
 </button>

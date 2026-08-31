@@ -11,6 +11,7 @@ import { ValidationMessageService } from '@core/services/validation-message.serv
 import { Eye } from '@primeicons/angular/eye';
 import { EyeSlash } from '@primeicons/angular/eye-slash';
 import { APP_VARIANT } from '@shared/ui/tokens/input-config';
+import { getDirection } from '@shared/utlits';
 /**
  * Reusable input component built on Angular 22 Signal Forms.
  *
@@ -47,6 +48,8 @@ import { APP_VARIANT } from '@shared/ui/tokens/input-config';
 export class Input {
   mask: boolean = true;
 
+  dir = computed(() => getDirection(this.fieldState().value()));
+
   // ── Injections ──
   private readonly validationService = inject(ValidationMessageService);
 
@@ -65,8 +68,8 @@ export class Input {
   /** Translation key for the floating label. */
   readonly label = input<string>('');
 
-  /** Input type: text, password, number, or email. */
-  readonly type = input<'text' | 'password' | 'number' | 'email'>('text');
+  /** Input type: text, password, number, email, or date. */
+  readonly type = input<'text' | 'password' | 'number' | 'email' | 'date'>('text');
 
   /** Placeholder text. */
   readonly placeholder = input<string>();
@@ -87,7 +90,7 @@ export class Input {
   readonly isDecimalNumber = input(false);
 
   /** PrimeNG FloatLabel variant. */
-readonly variant = computed(() => APP_VARIANT());
+  readonly variant = computed(() => APP_VARIANT());
 
   // ── Outputs ──
 

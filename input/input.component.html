@@ -7,7 +7,7 @@
     }
 
     <!-- text / email input -->
-    @if (type() === 'text' || type() === 'email') {
+    @if (type() === 'text' || type() === 'email' || type() === 'date') {
       <input
         pInputText
         [formField]="field()"
@@ -22,6 +22,7 @@
         [attr.placeholder]="placeholder() | translate"
         (keyup.enter)="onKeyEnter()"
         class="w-full"
+        [dir]="dir()"
       />
     }
 
@@ -40,6 +41,7 @@
         [attr.aria-describedby]="showError() ? errorId() : null"
         incrementButtonClass="incClass"
         decrementButtonClass="decClass"
+        class="w-full"
         (keyup.enter)="onKeyEnter()"
       />
     }
@@ -58,6 +60,7 @@
         [attr.aria-describedby]="showError() ? errorId() : null"
         [attr.placeholder]="placeholder() | translate"
         (keyup.enter)="onKeyEnter()"
+        class="w-full"
       />
       <p-inputicon (click)="mask = !mask" style="cursor: pointer">
         @if (mask) {
