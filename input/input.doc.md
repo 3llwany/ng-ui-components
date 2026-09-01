@@ -18,7 +18,7 @@ The component accepts a Signal Forms `Field` and automatically handles:
 
 <!-- Email with prefix icon -->
 <app-input [field]="myForm.email" label="FORM.EMAIL" type="email" [isPrefix]="true">
-  <div class="prefixIcon"><svg data-p-icon="Envelope"></svg></div>
+  <svg prefixIcon data-p-icon="Envelope"></svg>
 </app-input>
 
 <!-- Password -->
