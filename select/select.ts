@@ -31,6 +31,7 @@ export class SelectApp<T> {
   readonly placeholder = input<string>('');
   readonly loading = input(false);
   readonly multiple = input(false);
+  readonly filter = input(true);
   readonly showClear = input(true);
   readonly appendTo = input<'body' | 'self'>('body');
   readonly variant = computed(() => APP_VARIANT());

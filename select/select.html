@@ -6,6 +6,7 @@
       [appendTo]="appendTo()"
       [options]="options()"
       [formField]="f"
+      [filter]="filter()"
       [showClear]="showClear()"
       [optionLabel]="optionLabel()"
       [optionValue]="optionValue()"
@@ -17,11 +18,11 @@
     >
       <ng-template #selectedItem let-selectedOption>
         @if (selectedOption) {
-          <span>{{ (selectedOption[optionLabel()] ?? selectedOption) | translate }}</span>
+          <span>{{ selectedOption[optionLabel()] ?? selectedOption | translate }}</span>
         }
       </ng-template>
       <ng-template #item let-option>
-        <span>{{ (option[optionLabel()] ?? option) | translate }}</span>
+        <span>{{ option[optionLabel()] ?? option | translate }}</span>
       </ng-template>
     </p-select>
   } @else {
@@ -31,6 +32,7 @@
       [appendTo]="appendTo()"
       [options]="options()"
       [(ngModel)]="ngModel"
+      [filter]="filter()"
       [showClear]="showClear()"
       [optionLabel]="optionLabel()"
       [optionValue]="optionValue()"
@@ -42,11 +44,11 @@
     >
       <ng-template #selectedItem let-selectedOption>
         @if (selectedOption) {
-          <span>{{ (selectedOption[optionLabel()] ?? selectedOption) | translate }}</span>
+          <span>{{ selectedOption[optionLabel()] ?? selectedOption | translate }}</span>
         }
       </ng-template>
       <ng-template #item let-option>
-        <span>{{ (option[optionLabel()] ?? option) | translate }}</span>
+        <span>{{ option[optionLabel()] ?? option | translate }}</span>
       </ng-template>
     </p-select>
   }

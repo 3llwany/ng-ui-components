@@ -1,18 +1,18 @@
 import { Component, computed, inject, input, model, output } from '@angular/core';
 import { Field, FormField, ValidationError } from '@angular/forms/signals';
-import { FormsModule } from '@angular/forms';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { FloatLabel } from 'primeng/floatlabel';
-import { TranslatePipe } from '@ngx-translate/core';
 import { ValidationMessageService } from '@core/services/validation-message.service';
 import { APP_VARIANT } from '@shared/ui/tokens/input-config';
+import { FloatLabel } from 'primeng/floatlabel';
+import { DatePickerModule } from 'primeng/datepicker';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  imports: [MultiSelectModule, FloatLabel, TranslatePipe, FormField, FormsModule],
-  selector: 'app-multiselect',
-  templateUrl: './multiselect.html',
+  imports: [FloatLabel, DatePickerModule, FormField, FormsModule, TranslatePipe],
+  selector: 'app-datepicker',
+  templateUrl: './datepicker.html',
 })
-export class MultiSelectApp<T> {
+export class Datepicker {
   /** Optional Signal Forms Field. If provided, form validation and state are automatically bound. */
   readonly field = input<Field<any> | undefined>(undefined);
 
@@ -25,13 +25,8 @@ export class MultiSelectApp<T> {
   /** Translation key for the floating label. */
   readonly label = input<string>('');
   readonly styleClass = input<string>('');
-  readonly options = input.required<T[]>();
-  readonly optionLabel = input.required<string>();
-  readonly optionValue = input.required<string>();
   readonly placeholder = input<string>('');
-  readonly loading = input(false);
-  readonly showClear = input(true);
-  readonly filter = input(true);
+  readonly showIcon = input(true);
   readonly appendTo = input<'body' | 'self'>('body');
   readonly display = input<'comma' | 'chip'>('chip');
   readonly variant = computed(() => APP_VARIANT());
