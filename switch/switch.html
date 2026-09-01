@@ -1,0 +1,65 @@
+<div
+  (click)="toggle()"
+  [class]="
+    'flex items-center justify-between p-2 sm:p-2 rounded-xl border  dark:border-surface-700 dark:bg-surface-800/60   transition-all cursor-pointer select-none ' +
+    styleClass() +
+    bg()
+  "
+  [class.opacity-60]="isDisabled() || disabled()"
+  [class.cursor-not-allowed]="isDisabled() || disabled()"
+>
+  <div class="flex flex-col gap-0.5 pr-4 rtl:pr-0 rtl:pl-4">
+    @if (label()) {
+      <span class="text-sm font-semibold">
+        {{ label() | translate }}
+      </span>
+    }
+    @if (description()) {
+      <span class="text-xs text-surface-500 dark:text-surface-400">
+        {{ description() | translate }}
+      </span>
+    }
+  </div>
+
+  <div (click)="$event.stopPropagation()">
+    @if (field(); as f) {
+      <p-toggleswitch
+        [inputId]="inputId()"
+        [formField]="f"
+        [disabled]="disabled()"
+        (onChange)="onChange.emit($event.checked)"
+      />
+    } @else {
+      <p-toggleswitch
+        [inputId]="inputId()"
+        [ngModel]="effectiveValue()"
+        (ngModelChange)="onValueChange($event)"
+        [disabled]="isDisabled() || disabled()"
+        (onBlur)="onTouchedCb()"
+      />
+    }
+  </div>
+</div>
+
+@if (showError()) {
+  <div
+    [id]="errorId()"
+    role="alert"
+    class="text-red-500 text-xs font-medium mt-1.5 ml-1 flex items-center gap-1"
+  >
+    <svg
+      class="w-3.5 h-3.5 shrink-0"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+        clip-rule="evenodd"
+      />
+    </svg>
+    <span>{{ errorMessage() | translate }}</span>
+  </div>
+}
