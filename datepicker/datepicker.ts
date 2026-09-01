@@ -1,26 +1,39 @@
-import { Component, computed, inject, input, model, output } from '@angular/core';
+import { Component, computed, inject, input, output, forwardRef, signal, model } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { Field, FormField, ValidationError } from '@angular/forms/signals';
 import { ValidationMessageService } from '@core/services/validation-message.service';
 import { APP_VARIANT } from '@shared/ui/tokens/input-config';
 import { FloatLabel } from 'primeng/floatlabel';
 import { DatePickerModule } from 'primeng/datepicker';
-import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   imports: [FloatLabel, DatePickerModule, FormField, FormsModule, TranslatePipe],
   selector: 'app-datepicker',
   templateUrl: './datepicker.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => Datepicker),
+      multi: true,
+    },
+  ],
 })
-export class Datepicker {
+export class Datepicker implements ControlValueAccessor {
   /** Optional Signal Forms Field. If provided, form validation and state are automatically bound. */
   readonly field = input<Field<any> | undefined>(undefined);
 
   /** Two-way model binding when not using Signal Forms. */
   readonly ngModel = model<any>();
 
+  /** Internal model value when using ControlValueAccessor. */
+  readonly modelValue = signal<any>(null);
+
+  readonly effectiveValue = computed(() => this.ngModel() ?? this.modelValue());
+
   /** Event emitted on value change. */
   readonly onChange = output<any>();
+
 
   /** Translation key for the floating label. */
   readonly label = input<string>('');
@@ -28,13 +41,13 @@ export class Datepicker {
   readonly placeholder = input<string>('');
   readonly showIcon = input(true);
   readonly appendTo = input<'body' | 'self'>('body');
-  readonly display = input<'comma' | 'chip'>('chip');
+  readonly dateFormat = input<string>('yy-mm-dd');
   readonly variant = computed(() => APP_VARIANT());
 
   // ── Injections ──
   private readonly validationService = inject(ValidationMessageService);
 
-  private readonly generatedId = `multiselect_${Math.random().toString(36).substring(2, 9)}`;
+  private readonly generatedId = `datepicker_${Math.random().toString(36).substring(2, 9)}`;
 
   readonly fieldState = computed(() => {
     const f = this.field();
@@ -44,7 +57,7 @@ export class Datepicker {
   /** Unique ID for this input instance, used for label association and aria attributes. */
   readonly inputId = computed(() => {
     const state = this.fieldState();
-    return state ? `multiselect_${state.name()}` : this.generatedId;
+    return state ? `datepicker_${state.name()}` : this.generatedId;
   });
 
   /** Error message ID for aria-describedby association. */
@@ -65,4 +78,34 @@ export class Datepicker {
     const errors: readonly ValidationError.WithOptionalFieldTree[] = state.errors();
     return this.validationService.getFirstMessage(errors);
   });
+
+  // ── ControlValueAccessor Implementation ──
+  private onChangeCb: (val: any) => void = () => {};
+  public onTouchedCb: () => void = () => {};
+  public isDisabled = signal<boolean>(false);
+
+  writeValue(val: any): void {
+    this.modelValue.set(val);
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChangeCb = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouchedCb = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    this.isDisabled.set(isDisabled);
+  }
+
+  onValueChange(val: any): void {
+    this.modelValue.set(val);
+    this.ngModel.set(val);
+    this.onChangeCb(val);
+    this.onChange.emit(val);
+  }
 }
+
+

@@ -28,20 +28,22 @@
   } @else {
     <p-select
       [inputId]="inputId()"
-      [multiple]="multiple()"
       [appendTo]="appendTo()"
       [options]="options()"
-      [(ngModel)]="ngModel"
+      [ngModel]="effectiveValue()"
+      (ngModelChange)="onValueChange($event)"
       [filter]="filter()"
       [showClear]="showClear()"
       [optionLabel]="optionLabel()"
       [optionValue]="optionValue()"
       [placeholder]="placeholder() ? (placeholder() | translate) : ''"
       [loading]="loading()"
+      [disabled]="isDisabled()"
       display="chip"
       [class]="'w-full ' + styleClass()"
-      (onChange)="onChange.emit($event)"
+      (onBlur)="onTouchedCb()"
     >
+
       <ng-template #selectedItem let-selectedOption>
         @if (selectedOption) {
           <span>{{ selectedOption[optionLabel()] ?? selectedOption | translate }}</span>

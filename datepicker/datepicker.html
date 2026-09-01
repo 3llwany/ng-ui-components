@@ -6,20 +6,27 @@
       [showIcon]="showIcon()"
       [placeholder]="placeholder()"
       [appendTo]="appendTo()"
+      [dateFormat]="dateFormat()"
       [class]="'w-full ' + styleClass()"
       (onChange)="onChange.emit($event)"
     />
   } @else {
     <p-datepicker
       [inputId]="inputId()"
-      [(ngModel)]="ngModel"
+      [ngModel]="effectiveValue()"
+      (ngModelChange)="onValueChange($event)"
       [showIcon]="showIcon()"
       [placeholder]="placeholder()"
       [appendTo]="appendTo()"
+      [dateFormat]="dateFormat()"
+      [disabled]="isDisabled()"
       [class]="'w-full ' + styleClass()"
-      (onChange)="onChange.emit($event)"
+      (onBlur)="onTouchedCb()"
     />
   }
+
+
+
   @if (label()) {
     <label [for]="inputId()">
       {{ label() | translate }}
