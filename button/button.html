@@ -1,8 +1,8 @@
 <button
   pButton
-  [class]="'w-full !py-3.5 !rounded-xl font-bold border-none ' + (styleClass() ?? '')"
+  [class]="'w-full py-3.5! rounded-xl! font-bold border-none ' + (styleClass() ?? '')"
   [ngClass]="{
-    '!bg-gradient-to-r from-primary-600 to-primary-500 shadow-lg shadow-primary-500/25 ':
+    'bg-linear-to-r! from-primary-600 to-primary-500 shadow-lg shadow-primary-500/25 ':
       severity() === 'primary' && !outlined(),
   }"
   [severity]="severity()"
