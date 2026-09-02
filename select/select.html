@@ -28,6 +28,8 @@
   } @else {
     <p-select
       [inputId]="inputId()"
+      [name]="inputId()"
+      [ngModelOptions]="{ standalone: true }"
       [appendTo]="appendTo()"
       [options]="options()"
       [ngModel]="effectiveValue()"

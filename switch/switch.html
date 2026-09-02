@@ -32,6 +32,8 @@
     } @else {
       <p-toggleswitch
         [inputId]="inputId()"
+        [name]="inputId()"
+        [ngModelOptions]="{ standalone: true }"
         [ngModel]="effectiveValue()"
         (ngModelChange)="onValueChange($event)"
         [disabled]="isDisabled() || disabled()"
