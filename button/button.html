@@ -13,9 +13,17 @@
   [type]="type()"
   (click)="Click()"
 >
-  <ng-content select="[prefixIcon]"></ng-content>
-  <!-- <ng-content select=".prefixIcon" /> -->
+  <!-- NOTE: prefix Icon -->
+  <!-- <ng-content select="[prefixIcon]"></ng-content> -->
+  @if (iconPos() === 'left' && icon() !== null) {
+    <svg class="w-4! h-4!" [pIcon]="icon()!"></svg>
+  }
+
   {{ label() | translate }}
-  <!-- <ng-content select=".suffixIcon" /> -->
-  <ng-content select="[suffixIcon]"></ng-content>
+
+  <!-- NOTE: suffix Icon -->
+  @if (iconPos() === 'right' && icon() !== null) {
+    <svg class="w-4! h-4!" [pIcon]="icon()!"></svg>
+  }
+  <!-- <ng-content select="[suffixIcon]"></ng-content> -->
 </button>

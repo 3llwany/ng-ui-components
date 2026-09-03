@@ -2,7 +2,8 @@
   <p-iconfield>
     @if (isPrefix()) {
       <p-inputicon>
-        <ng-content select="[prefixIcon]"></ng-content>
+         <svg class="w-4! h-4!" [pIcon]="icon()!"></svg>
+        <!-- <ng-content select="[prefixIcon]"></ng-content> -->
       </p-inputicon>
     }
 
@@ -73,7 +74,8 @@
 
     @if (isSuffix()) {
       <p-inputicon>
-        <ng-content select="[suffixIcon]"></ng-content>
+         <svg class="w-4! h-4!" [pIcon]="icon()!"></svg>
+        <!-- <ng-content select="[suffixIcon]"></ng-content> -->
       </p-inputicon>
     }
   </p-iconfield>

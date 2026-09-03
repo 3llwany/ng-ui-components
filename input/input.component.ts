@@ -12,6 +12,7 @@ import { Eye } from '@primeicons/angular/eye';
 import { EyeSlash } from '@primeicons/angular/eye-slash';
 import { APP_VARIANT } from '@shared/ui/tokens/input-config';
 import { getDirection } from '@shared/utlits';
+import { PIcon } from '@primeicons/angular/p-icon';
 /**
  * Reusable input component built on Angular 22 Signal Forms.
  *
@@ -41,6 +42,7 @@ import { getDirection } from '@shared/utlits';
     FloatLabel,
     IconField,
     InputIcon,
+    PIcon,
     Eye,
     EyeSlash,
   ],
@@ -73,6 +75,9 @@ export class Input {
 
   /** Placeholder text. */
   readonly placeholder = input<string>();
+
+  /** Icon to use for the input. */
+  readonly icon = input<string | null>(null);
 
   /** Whether to show a prefix icon slot. */
   readonly isPrefix = input(false);
