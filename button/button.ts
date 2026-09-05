@@ -1,12 +1,11 @@
-import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
+import { PIcon } from '@primeicons/angular/p-icon';
 import { BaseButton } from '@shared/ui/base/base-button';
 import { ButtonDirective } from 'primeng/button';
-import { PIcon } from '@primeicons/angular/p-icon';
 
 @Component({
-  imports: [ButtonDirective, TranslatePipe, NgClass, PIcon],
+  imports: [ButtonDirective, TranslatePipe,  PIcon],
   selector: 'app-button',
   templateUrl: './button.html',
   styles: [
