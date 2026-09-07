@@ -1,0 +1,14 @@
+<button
+  pButton
+  type="button"
+  rounded
+  variant="outlined"
+  class="w-10! h-10! p-0!"
+  [pTooltip]="title() | translate"
+  (click)="onClick.emit()"
+>
+  <svg
+    class="w-5! h-5!"
+    pIcon="{{ langService.currentLang() == 'en' ? 'arrow-left' : 'arrow-right' }}"
+  ></svg>
+</button>
