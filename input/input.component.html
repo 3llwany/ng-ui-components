@@ -7,14 +7,14 @@
       </p-inputicon>
     }
 
-    <!-- text / email input -->
-    @if (type() === 'text' || type() === 'email' || type() === 'date') {
+    <!-- text / email / date / number input -->
+    @if (type() === 'text' || type() === 'email' || type() === 'date' || type() === 'number') {
       <input
         pInputText
         [formField]="field()"
         [type]="type()"
         [id]="inputId()"
-        [step]="step()"
+        [step]="type() === 'number' && isDecimalNumber() ? 'any' : step()"
         [autocomplete]="autocomplete() ?? ''"
         [class.p-filled]="hasValue()"
         [class.p-invalid]="showError()"
@@ -23,27 +23,7 @@
         [attr.placeholder]="placeholder() | translate"
         (keyup.enter)="onKeyEnter()"
         class="w-full"
-        [dir]="dir()"
-      />
-    }
-
-    <!-- number input -->
-    @else if (type() === 'number') {
-      <p-inputnumber
-        [formField]="field()"
-        [id]="inputId()"
-        [step]="step()"
-        [autocomplete]="autocomplete() ?? ''"
-        [showButtons]="true"
-        [maxFractionDigits]="isDecimalNumber() ? 10 : null"
-        [format]="isDecimalNumber()"
-        [class.p-invalid]="showError()"
-        [attr.aria-invalid]="showError()"
-        [attr.aria-describedby]="showError() ? errorId() : null"
-        incrementButtonClass="incClass"
-        decrementButtonClass="decClass"
-        class="w-full"
-        (keyup.enter)="onKeyEnter()"
+        [dir]="type() === 'number' ? 'ltr' : dir()"
       />
     }
 
