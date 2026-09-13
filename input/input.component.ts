@@ -31,6 +31,9 @@ import { PIcon } from '@primeicons/angular/p-icon';
  */
 @Component({
   selector: 'app-input',
+  host: {
+    class: 'block w-full',
+  },
   templateUrl: './input.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

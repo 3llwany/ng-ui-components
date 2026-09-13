@@ -10,6 +10,9 @@ import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   imports: [FloatLabel, DatePickerModule, FormField, FormsModule, TranslatePipe],
   selector: 'app-datepicker',
+  host: {
+    class: 'block w-full',
+  },
   templateUrl: './datepicker.html',
   providers: [
     {

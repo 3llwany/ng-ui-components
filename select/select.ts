@@ -10,6 +10,9 @@ import { APP_VARIANT } from '@shared/ui/tokens/input-config';
 @Component({
   imports: [SelectModule, FloatLabel, TranslatePipe, FormField, FormsModule],
   selector: 'app-select',
+  host: {
+    class: 'block w-full',
+  },
   templateUrl: './select.html',
   providers: [
     {
@@ -46,6 +49,7 @@ export class SelectApp<T> implements ControlValueAccessor {
   readonly multiple = input(false);
   readonly filter = input(true);
   readonly showClear = input(true);
+  readonly disabled = input(false);
   readonly appendTo = input<'body' | 'self'>('body');
   readonly variant = computed(() => APP_VARIANT());
 
