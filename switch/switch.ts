@@ -56,11 +56,11 @@ export class AppSwitch implements ControlValueAccessor {
 
   bg = computed(() => {
     let bgClass;
-    if (this.effectiveValue() || this.fieldState()?.value()) {
-      bgClass = ' bg-emerald-50 border-emerald-100 hover:bg-emerald-100/60 dark:hover:bg-emerald-800/80 text-emerald-900 dark:text-emerald-100';
-    } else {
-      bgClass = ' bg-surface-50 border-surface-200 hover:bg-surface-100/60 dark:hover:bg-surface-800/80 text-surface-900 dark:text-surface-100';
-    }
+    // if (this.effectiveValue() || this.fieldState()?.value()) {
+    //   bgClass = ' bg-emerald-50 border-emerald-100 hover:bg-emerald-100/60 dark:hover:bg-emerald-800/80 text-emerald-900 dark:text-emerald-100';
+    // } else {
+    //   bgClass = ' bg-surface-50 border-surface-200 hover:bg-surface-100/60 dark:hover:bg-surface-800/80 text-surface-900 dark:text-surface-100';
+    // }
     return bgClass;
   });
 
