@@ -10,9 +10,10 @@
 شغل الأوامر دي مرة واحدة بس على جهازك (مع استبدال `YOUR_REPO_URL` برابط الـ Repo الخاص بيك على GitHub):
 
 ```powershell
-git config --global alias.ui-init '!git subtree add --prefix=src/app/shared/components https://github.com/3llwany/ng-ui-components.git main --squash'
-git config --global alias.ui-pull '!git subtree pull --prefix=src/app/shared/components https://github.com/3llwany/ng-ui-components.git main --squash'
-git config --global alias.ui-push '!git subtree push --prefix=src/app/shared/components https://github.com/3llwany/ng-ui-components.git main'
+git config --global alias.ui-init '!f() { dir=src/app/shared/components; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/components; fi; git subtree add --prefix=$dir https://github.com/3llwany/ng-ui-components.git main --squash; }; f'
+git config --global alias.ui-pull '!f() { dir=src/app/shared/components; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/components; fi; git subtree pull --prefix=$dir https://github.com/3llwany/ng-ui-components.git main --squash; }; f'
+git config --global alias.ui-push '!f() { dir=src/app/shared/components; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/components; fi; git subtree push --prefix=$dir https://github.com/3llwany/ng-ui-components.git main; }; f'
+git config --global alias.ui-deps '!f() { if [ -f src/frontend/package.json ]; then cd src/frontend; fi; npm i primeng @primeuix/themes primeicons @primeicons/angular tailwindcss @tailwindcss/postcss tailwindcss-primeui @ngx-translate/core @ngx-translate/http-loader; }; f'
 ```
 
 ### في أي مشروع Angular جديد:
@@ -20,9 +21,9 @@ git config --global alias.ui-push '!git subtree push --prefix=src/app/shared/com
    ```powershell
    git ui-init
    ```
-2. سطب الباكدجات المطلوبة:
+2. سطب الباكدجات المطلوبة بكومند واحد:
    ```powershell
-   npm i primeng @primeuix/themes primeicons @primeicons/angular tailwindcss @tailwindcss/postcss tailwindcss-primeui @ngx-translate/core @ngx-translate/http-loader
+   git ui-deps
    ```
 
 ---
