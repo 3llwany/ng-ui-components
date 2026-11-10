@@ -9,4 +9,6 @@ export * from './core/base-add.imp';
 export * from './core/input-config';
 export * from './core/validation-message.service';
 export * from './core/utils';
+export * from './core/theme-preset';
+
 
