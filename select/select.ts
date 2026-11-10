@@ -36,7 +36,7 @@ import { createUniqueId } from "../foundation/utils";
     },
   ],
 })
-export class AppSelect<T> implements ControlValueAccessor {
+export class AppSelect<T = any> implements ControlValueAccessor {
   /** Optional Signal Forms Field. If provided, form validation and state are automatically bound. */
   readonly field = input<Field<T | null | undefined> | undefined>(undefined);
 

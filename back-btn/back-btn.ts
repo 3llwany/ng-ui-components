@@ -6,11 +6,12 @@ import { ButtonModule } from 'primeng/button';
 
 @Component({
   imports: [TranslatePipe, Tooltip, PIcon, ButtonModule],
-  selector: 'back-btn',
+  selector: 'app-back-btn, back-btn',
   templateUrl: './back-btn.html',
 })
-export class BackBtn {
+export class AppBackBtn {
   public readonly title = input<string>('COMMON.BACK');
   public readonly onClick = output<void>();
   public readonly langService = inject(TranslateService);
 }
+

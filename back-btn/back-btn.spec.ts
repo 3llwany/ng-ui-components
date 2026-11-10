@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BackBtn } from './back-btn';
+import { AppBackBtn } from './back-btn';
 
-describe('BackBtn', () => {
-  let component: BackBtn;
-  let fixture: ComponentFixture<BackBtn>;
+describe('AppBackBtn', () => {
+  let component: AppBackBtn;
+  let fixture: ComponentFixture<AppBackBtn>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BackBtn],
+      imports: [AppBackBtn],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BackBtn);
+    fixture = TestBed.createComponent(AppBackBtn);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
@@ -19,3 +19,4 @@ describe('BackBtn', () => {
     expect(component).toBeTruthy();
   });
 });
+

@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SelectApp } from './select';
+import { AppSelect } from './select';
 
-describe('Select', () => {
-  let component: SelectApp;
-  let fixture: ComponentFixture<SelectApp>;
+describe('AppSelect', () => {
+  let component: AppSelect;
+  let fixture: ComponentFixture<AppSelect>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SelectApp],
+      imports: [AppSelect],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SelectApp);
+    fixture = TestBed.createComponent(AppSelect);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
@@ -19,3 +19,4 @@ describe('Select', () => {
     expect(component).toBeTruthy();
   });
 });
+

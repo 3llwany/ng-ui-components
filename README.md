@@ -12,9 +12,9 @@
 ```powershell
 git config --global alias.ui-init '!f() { dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; git subtree add --prefix=$dir https://github.com/3llwany/ng-ui-components.git main --squash; }; f'
 git config --global alias.ui-pull '!f() { dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; git subtree pull --prefix=$dir https://github.com/3llwany/ng-ui-components.git main --squash; }; f'
-git config --global --% alias.ui-push "!f() { dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; if [ ! -d \"$dir\" ]; then echo \"Error: $dir not found\"; return 1; fi; tmp=$(mktemp -d); git clone --depth 1 https://github.com/3llwany/ng-ui-components.git \"$tmp\" --quiet || { rm -rf \"$tmp\"; return 1; }; if [ $# -gt 0 ]; then targets=\"$@\"; else targets=$(ls -1 \"$dir\"); fi; for item in $targets; do if [ -e \"$dir/$item\" ]; then rm -rf \"$tmp/$item\"; cp -r \"$dir/$item\" \"$tmp/$item\"; fi; done; cd \"$tmp\"; git add -A; if git diff --cached --quiet; then echo \"No UI changes to push.\"; else msg=\"feat(ui): sync [${*:-all}]\"; git commit -m \"$msg\" && git push origin main; fi; cd - >/dev/null; rm -rf \"$tmp\"; }; f"
+git config --global --% alias.ui-push "!f() { dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; if [ ! -d \"$dir\" ]; then echo \"Error: $dir not found\"; return 1; fi; tmp=$(mktemp -d); git clone --depth 1 https://github.com/3llwany/ng-ui-components.git \"$tmp\" --quiet || { rm -rf \"$tmp\"; return 1; }; if [ $# -gt 0 ]; then targets=\"$@\"; else targets=$(ls -1 \"$dir\"); fi; for item in $targets; do if [ \"$item\" != \"index.ts\" ] && [ -e \"$dir/$item\" ]; then rm -rf \"$tmp/$item\"; cp -r \"$dir/$item\" \"$tmp/$item\"; fi; done; : > \"$tmp/index.ts\"; for d in \"$tmp\"/*/; do c=$(basename \"$d\"); if [ \"$c\" != \"foundation\" ] && [ -f \"$tmp/$c/$c.ts\" ]; then echo \"export * from './$c/$c';\" >> \"$tmp/index.ts\"; fi; done; for f in \"$tmp\"/foundation/*.ts; do b=$(basename \"$f\" .ts); echo \"export * from './foundation/$b';\" >> \"$tmp/index.ts\"; done; cd \"$tmp\"; git add -A; if git diff --cached --quiet; then echo \"No UI changes to push.\"; else msg=\"feat(ui): sync [${*:-all}]\"; git commit -m \"$msg\" && git push origin main; fi; cd - >/dev/null; rm -rf \"$tmp\"; }; f"
 git config --global alias.ui-deps '!f() { if [ -f src/frontend/package.json ]; then cd src/frontend; fi; npm i primeng @primeuix/themes primeicons @primeicons/angular tailwindcss @tailwindcss/postcss tailwindcss-primeui @ngx-translate/core @ngx-translate/http-loader; }; f'
-git config --global --% alias.ui-add "!f() { if [ $# -eq 0 ]; then echo 'Usage: git ui-add <component> (e.g. button, input, select, datepicker, switch, back-btn)'; return 1; fi; dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; mkdir -p \"$dir\"; git fetch https://github.com/3llwany/ng-ui-components.git main --quiet; git archive FETCH_HEAD foundation \"$@\" | tar -x -C \"$dir\"; echo \"Done! Added [foundation + $*] into $dir\"; }; f"
+git config --global --% alias.ui-add "!f() { if [ $# -eq 0 ]; then echo 'Usage: git ui-add <component> (e.g. button, input, select, datepicker, switch, back-btn)'; return 1; fi; dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; mkdir -p \"$dir\"; git fetch https://github.com/3llwany/ng-ui-components.git main --quiet; git archive FETCH_HEAD foundation \"$@\" | tar -x -C \"$dir\"; : > \"$dir/index.ts\"; for d in \"$dir\"/*/; do c=$(basename \"$d\"); if [ \"$c\" != \"foundation\" ] && [ -f \"$dir/$c/$c.ts\" ]; then echo \"export * from './$c/$c';\" >> \"$dir/index.ts\"; fi; done; for f in \"$dir\"/foundation/*.ts; do b=$(basename \"$f\" .ts); echo \"export * from './foundation/$b';\" >> \"$dir/index.ts\"; done; echo \"Done! Added [foundation + $*] and updated $dir/index.ts\"; }; f"
 git config --global alias.ui-list '!f() { git fetch https://github.com/3llwany/ng-ui-components.git main --quiet; echo Available UI components:; git ls-tree -d --name-only FETCH_HEAD | grep -v ^foundation$; }; f'
 ```
 
@@ -99,7 +99,7 @@ git config --global alias.ui-list '!f() { git fetch https://github.com/3llwany/n
 
 ```ts
 import { providePrimeNG } from 'primeng/config';
-import { UiThemePreset } from './shared/ui/foundation/theme-preset';
+import { UiThemePreset } from './shared/ui';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -118,7 +118,27 @@ export const appConfig: ApplicationConfig = {
 
 ---
 
-## 3. التحديث وإضافة كومبوننتس جديدة
+## 3. جدول الكومبوننتس الموحد وطريقة الـ Import
+
+كل الكومبوننتس ماشية بنظام تسمية موحد (`<name>/<name>.ts` والكلاس `App<Name>` والـ Selector `<app-...>`):
+
+| اسم الفولدر (`ui-add`) | اسم الكلاس (Class) | الـ Selector في الـ HTML | مسار الملف المباشر |
+| :--- | :--- | :--- | :--- |
+| **`input`** | `AppInput` | `<app-input>` | `./shared/ui/input/input` |
+| **`button`** | `AppButton` | `<app-button>` | `./shared/ui/button/button` |
+| **`select`** | `AppSelect` | `<app-select>` | `./shared/ui/select/select` |
+| **`datepicker`** | `AppDatepicker` | `<app-datepicker>` | `./shared/ui/datepicker/datepicker` |
+| **`switch`** | `AppSwitch` | `<app-switch>` | `./shared/ui/switch/switch` |
+| **`back-btn`** | `AppBackBtn` | `<app-back-btn>` | `./shared/ui/back-btn/back-btn` |
+
+```ts
+// تقدر تستورد كل الكومبوننتس اللي نزلتها من الفولدر مباشرة (سواء بـ ui-add أو ui-init):
+import { AppInput, AppButton, AppSelect, AppDatepicker, AppSwitch, AppBackBtn } from './shared/ui';
+```
+
+---
+
+## 4. التحديث وإضافة كومبوننتس جديدة
 
 * **سحب آخر التحديثات في مشروعك الحالي:**
   ```powershell
@@ -135,7 +155,7 @@ export const appConfig: ApplicationConfig = {
 
 ---
 
-## 4. قواعد معمارية (للـ AI Agents والمطورين)
+## 5. قواعد معمارية (للـ AI Agents والمطورين)
 
 1. **المكتبة Generic فقط (Domain-Agnostic):**
    - فولدر `src/app/shared/ui` مخصص **فقط** للكومبوننتس العامة القابلة لإعادة الاستخدام في أي مشروع (`button`, `input`, `select`, `datepicker`, `switch`, `badge`, إلخ).

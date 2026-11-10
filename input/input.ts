@@ -34,7 +34,7 @@ import { PIcon } from '@primeicons/angular/p-icon';
   host: {
     class: 'block w-full',
   },
-  templateUrl: './input.component.html',
+  templateUrl: './input.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslatePipe,
@@ -159,5 +159,4 @@ export class AppInput {
   }
 }
 
-export { AppInput as Input };
 
