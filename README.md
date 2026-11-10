@@ -12,10 +12,10 @@
 ```powershell
 git config --global alias.ui-init '!f() { dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; git subtree add --prefix=$dir https://github.com/3llwany/ng-ui-components.git main --squash; }; f'
 git config --global alias.ui-pull '!f() { dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; git subtree pull --prefix=$dir https://github.com/3llwany/ng-ui-components.git main --squash; }; f'
-git config --global alias.ui-push '!f() { dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; git subtree push --prefix=$dir https://github.com/3llwany/ng-ui-components.git main; }; f'
+git config --global --% alias.ui-push "!f() { dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; if [ ! -d \"$dir\" ]; then echo \"Error: $dir not found\"; return 1; fi; tmp=$(mktemp -d); git clone --depth 1 https://github.com/3llwany/ng-ui-components.git \"$tmp\" --quiet || { rm -rf \"$tmp\"; return 1; }; if [ $# -gt 0 ]; then targets=\"$@\"; else targets=$(ls -1 \"$dir\"); fi; for item in $targets; do if [ -e \"$dir/$item\" ]; then rm -rf \"$tmp/$item\"; cp -r \"$dir/$item\" \"$tmp/$item\"; fi; done; cd \"$tmp\"; git add -A; if git diff --cached --quiet; then echo \"No UI changes to push.\"; else msg=\"feat(ui): sync [${*:-all}]\"; git commit -m \"$msg\" && git push origin main; fi; cd - >/dev/null; rm -rf \"$tmp\"; }; f"
 git config --global alias.ui-deps '!f() { if [ -f src/frontend/package.json ]; then cd src/frontend; fi; npm i primeng @primeuix/themes primeicons @primeicons/angular tailwindcss @tailwindcss/postcss tailwindcss-primeui @ngx-translate/core @ngx-translate/http-loader; }; f'
 git config --global --% alias.ui-add "!f() { if [ $# -eq 0 ]; then echo 'Usage: git ui-add <component> (e.g. button, input, select, datepicker, switch, back-btn)'; return 1; fi; dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; mkdir -p \"$dir\"; git fetch https://github.com/3llwany/ng-ui-components.git main --quiet; git archive FETCH_HEAD foundation \"$@\" | tar -x -C \"$dir\"; echo \"Done! Added [foundation + $*] into $dir\"; }; f"
-git config --global alias.ui-list '!f() { git fetch https://github.com/3llwany/ng-ui-components.git main --quiet; echo "Available UI components:"; git ls-tree -d --name-only FETCH_HEAD | grep -v "^foundation$"; }; f'
+git config --global alias.ui-list '!f() { git fetch https://github.com/3llwany/ng-ui-components.git main --quiet; echo "Available UI components:"; git ls-tree -d --name-only FETCH_HEAD | grep -vE "^(foundation|\.)"; }; f'
 ```
 
 ### 📋 ملخص كل الأوامر المتاحة (في أي مشروع):
@@ -23,10 +23,10 @@ git config --global alias.ui-list '!f() { git fetch https://github.com/3llwany/n
 | الكومند | وظيفته |
 | :--- | :--- |
 | **`git ui-list`** | يعرضلك أسماء كل الكومبوننتس المتاحة في الـ Repo على GitHub |
-| **`git ui-add <name>`** | ينزلك كومبوننت واحد (أو أكتر) بالاسم + فولدر `foundation` فقط (مثال: `git ui-add button` , `git ui-add button input select`)) |
+| **`git ui-add <name>`** | ينزلك كومبوننت واحد (أو أكتر) بالاسم + فولدر `foundation` فقط (مثال: `git ui-add button` , `git ui-add button input select`) |
 | **`git ui-init`** | ينزلك **كل** الكومبوننتس دفعة واحدة ويربط الفولدر بـ `git subtree` |
 | **`git ui-pull`** | يعمل Upgrade ويسحب آخر التحديثات من الـ Repo |
-| **`git ui-push`** | يرفع أي كومبوننت جديد أو تعديل عملته للـ Repo الأساسي |
+| **`git ui-push [name]`** | يرفع كومبوننت محدد (مثل `git ui-push badge`) أو كل الكومبوننتس الموجودة في `shared/ui` للـ Repo الأساسي مباشرة (يعمل مع `ui-add` و `ui-init` بدون الحاجة لـ subtree) |
 | **`git ui-deps`** | يسطب كل باكدجات الـ `npm` المطلوبة (PrimeNG + Tailwind v4 + Translate) أوتوماتيك |
 
 ### في أي مشروع Angular جديد:
@@ -95,11 +95,11 @@ git config --global alias.ui-list '!f() { git fetch https://github.com/3llwany/n
 ```
 
 ### ج) ملف `src/app/app.config.ts`:
-تقدر تستخدم `UiThemePreset` الجاهز جوه الفولدر مباشرة:
+تقدر تستخدم `UiThemePreset` الجاهز جوه الفولدر مباشرة (يشتغل سواء استخدمت `ui-add` أو `ui-init`):
 
 ```ts
 import { providePrimeNG } from 'primeng/config';
-import { UiThemePreset } from './shared/ui';
+import { UiThemePreset } from './shared/ui/foundation/theme-preset';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -124,7 +124,24 @@ export const appConfig: ApplicationConfig = {
   ```powershell
   git ui-pull
   ```
-* **رفع كومبوننت جديد أو تعديل للـ Repo الأساسي (بعد عمل `git commit`):**
+* **رفع كومبوننت جديد أو تعديل للـ Repo الأساسي (يشتغل مع `ui-add` و `ui-init`):**
   ```powershell
+  # لرفع كومبوننت معين فقط (مثلاً بعد إنشاء أو تعديل كومبوننت)
+  git ui-push button
+
+  # أو لرفع كل الكومبوننتس الموجودة داخل src/app/shared/ui
   git ui-push
   ```
+
+---
+
+## 4. قواعد معمارية (للـ AI Agents والمطورين)
+
+1. **المكتبة Generic فقط (Domain-Agnostic):**
+   - فولدر `src/app/shared/ui` مخصص **فقط** للكومبوننتس العامة القابلة لإعادة الاستخدام في أي مشروع (`button`, `input`, `select`, `datepicker`, `switch`, `badge`, إلخ).
+   - أي كومبوننت خاص بـ Business Logic أو Feature معينة (مثل `moz-coins-badge`) **يُمنع** وضعه داخل `src/app/shared/ui`، ومكانه الصحيح هو `src/app/features/.../ui` أو `src/app/shared/components`.
+2. **مطابقة المسارات (1:1 Folder Mapping):**
+   - كل كومبوننت يوضع في فولدر مستقل `src/app/shared/ui/<component-name>`، وهو ما يطابق `<component-name>/` في جذر هذا المستودع بجانب `foundation/`، مما يجعله متاحاً تلقائياً في `git ui-list` و `git ui-add <component-name>`.
+3. **الاعتماديات الداخلية (Internal Imports):**
+   - الكومبوننتس داخل `src/app/shared/ui/<name>` تستورد احتياجاتها المشتركة فقط من `../foundation/...` ولا تستورد أي شيء من تفاصيل المشروع الخارجي (`features/` أو `core/`).
+
