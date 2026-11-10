@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { PIcon } from '@primeicons/angular/p-icon';
-import { BaseButton } from '@shared/ui/base/base-button';
+import { BaseButton } from '../core/base-button';
 import { ButtonDirective } from 'primeng/button';
 
 @Component({

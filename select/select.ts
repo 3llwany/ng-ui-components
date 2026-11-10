@@ -4,8 +4,8 @@ import { Field, FormField, ValidationError } from '@angular/forms/signals';
 import { SelectModule } from 'primeng/select';
 import { FloatLabel } from 'primeng/floatlabel';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ValidationMessageService } from '@core/services/validation-message.service';
-import { APP_VARIANT } from '@shared/ui/tokens/input-config';
+import { ValidationMessageService } from '../core/validation-message.service';
+import { APP_VARIANT } from '../core/input-config';
 
 @Component({
   imports: [SelectModule, FloatLabel, TranslatePipe, FormField, FormsModule],

@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Field, FormField, ValidationError } from '@angular/forms/signals';
-import { ValidationMessageService } from '@core/services/validation-message.service';
+import { ValidationMessageService } from '../core/validation-message.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 

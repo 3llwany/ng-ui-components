@@ -7,11 +7,11 @@ import { InputIcon } from 'primeng/inputicon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputPasswordModule } from 'primeng/inputpassword';
 import { InputText } from 'primeng/inputtext';
-import { ValidationMessageService } from '@core/services/validation-message.service';
+import { ValidationMessageService } from '../core/validation-message.service';
 import { Eye } from '@primeicons/angular/eye';
 import { EyeSlash } from '@primeicons/angular/eye-slash';
-import { APP_VARIANT } from '@shared/ui/tokens/input-config';
-import { getDirection } from '@shared/utlits';
+import { APP_VARIANT } from '../core/input-config';
+import { getDirection } from '../core/utils';
 import { PIcon } from '@primeicons/angular/p-icon';
 /**
  * Reusable input component built on Angular 22 Signal Forms.
