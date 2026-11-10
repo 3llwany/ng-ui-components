@@ -23,7 +23,7 @@ git config --global alias.ui-list '!f() { git fetch https://github.com/3llwany/n
 | الكومند | وظيفته |
 | :--- | :--- |
 | **`git ui-list`** | يعرضلك أسماء كل الكومبوننتس المتاحة في الـ Repo على GitHub |
-| **`git ui-add <name>`** | ينزلك كومبوننت واحد (أو أكتر) بالاسم + فولدر `core` فقط (مثال: `git ui-add button`) |
+| **`git ui-add <name>`** | ينزلك كومبوننت واحد (أو أكتر) بالاسم + فولدر `core` فقط (مثال: `git ui-add button` , `git ui-add button input select`)) |
 | **`git ui-init`** | ينزلك **كل** الكومبوننتس دفعة واحدة ويربط الفولدر بـ `git subtree` |
 | **`git ui-pull`** | يعمل Upgrade ويسحب آخر التحديثات من الـ Repo |
 | **`git ui-push`** | يرفع أي كومبوننت جديد أو تعديل عملته للـ Repo الأساسي |
