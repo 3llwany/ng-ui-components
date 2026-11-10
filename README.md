@@ -14,7 +14,20 @@ git config --global alias.ui-init '!f() { dir=src/app/shared/components; if [ -d
 git config --global alias.ui-pull '!f() { dir=src/app/shared/components; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/components; fi; git subtree pull --prefix=$dir https://github.com/3llwany/ng-ui-components.git main --squash; }; f'
 git config --global alias.ui-push '!f() { dir=src/app/shared/components; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/components; fi; git subtree push --prefix=$dir https://github.com/3llwany/ng-ui-components.git main; }; f'
 git config --global alias.ui-deps '!f() { if [ -f src/frontend/package.json ]; then cd src/frontend; fi; npm i primeng @primeuix/themes primeicons @primeicons/angular tailwindcss @tailwindcss/postcss tailwindcss-primeui @ngx-translate/core @ngx-translate/http-loader; }; f'
+git config --global --% alias.ui-add "!f() { if [ $# -eq 0 ]; then echo 'Usage: git ui-add <component> (e.g. button, input, select, datepicker, switch, back-btn)'; return 1; fi; dir=src/app/shared/components; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/components; fi; mkdir -p \"$dir\"; git fetch https://github.com/3llwany/ng-ui-components.git main --quiet; git archive FETCH_HEAD core \"$@\" | tar -x -C \"$dir\"; echo \"Done! Added [core + $*] into $dir\"; }; f"
+git config --global alias.ui-list '!f() { git fetch https://github.com/3llwany/ng-ui-components.git main --quiet; echo "Available UI components:"; git ls-tree -d --name-only FETCH_HEAD | grep -v "^core$"; }; f'
 ```
+
+### 📋 ملخص كل الأوامر المتاحة (في أي مشروع):
+
+| الكومند | وظيفته |
+| :--- | :--- |
+| **`git ui-list`** | يعرضلك أسماء كل الكومبوننتس المتاحة في الـ Repo على GitHub |
+| **`git ui-add <name>`** | ينزلك كومبوننت واحد (أو أكتر) بالاسم + فولدر `core` فقط (مثال: `git ui-add button`) |
+| **`git ui-init`** | ينزلك **كل** الكومبوننتس دفعة واحدة ويربط الفولدر بـ `git subtree` |
+| **`git ui-pull`** | يعمل Upgrade ويسحب آخر التحديثات من الـ Repo |
+| **`git ui-push`** | يرفع أي كومبوننت جديد أو تعديل عملته للـ Repo الأساسي |
+| **`git ui-deps`** | يسطب كل باكدجات الـ `npm` المطلوبة (PrimeNG + Tailwind v4 + Translate) أوتوماتيك |
 
 ### في أي مشروع Angular جديد:
 1. **تنزيل كل الكومبوننتس دفعة واحدة:**
