@@ -4,11 +4,11 @@ export * from './datepicker/datepicker';
 export * from './input/input.component';
 export * from './select/select';
 export * from './switch/switch';
-export * from './core/base-button';
-export * from './core/base-add.imp';
-export * from './core/input-config';
-export * from './core/validation-message.service';
-export * from './core/utils';
-export * from './core/theme-preset';
+export * from './foundation/base-button';
+export * from './foundation/base-add.imp';
+export * from './foundation/input-config';
+export * from './foundation/validation-message.service';
+export * from './foundation/utils';
+export * from './foundation/theme-preset';
 
 

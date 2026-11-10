@@ -1,4 +1,4 @@
-import { InjectionToken, signal } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 import { ButtonVariant } from 'primeng/button';
 import { FloatLabelVariant } from 'primeng/types/floatlabel';
 
@@ -36,5 +36,10 @@ export const DEFAULT_INPUT_CONFIG: InputConfig = {
 };
 
 export const INPUT_DEFAULTS = new InjectionToken<InputConfig>('DEFAULT_INPUT_CONFIG');
-export const APP_VARIANT = signal<FloatLabelVariant>('on');
+
+export const APP_VARIANT = new InjectionToken<FloatLabelVariant>('APP_VARIANT', {
+  providedIn: 'root',
+  factory: () => 'on',
+});
+
 

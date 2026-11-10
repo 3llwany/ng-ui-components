@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Datepicker } from './datepicker';
+import { AppDatepicker } from './datepicker';
 
-describe('Datepicker', () => {
-  let component: Datepicker;
-  let fixture: ComponentFixture<Datepicker>;
+describe('AppDatepicker', () => {
+  let component: AppDatepicker;
+  let fixture: ComponentFixture<AppDatepicker>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Datepicker],
+      imports: [AppDatepicker],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Datepicker);
+    fixture = TestBed.createComponent(AppDatepicker);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
@@ -19,3 +19,4 @@ describe('Datepicker', () => {
     expect(component).toBeTruthy();
   });
 });
+

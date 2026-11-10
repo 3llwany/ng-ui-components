@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { type Field, FormField, type ValidationError } from '@angular/forms/signals';
 import { TranslatePipe } from '@ngx-translate/core';
 import { FloatLabel } from 'primeng/floatlabel';
@@ -7,11 +7,11 @@ import { InputIcon } from 'primeng/inputicon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputPasswordModule } from 'primeng/inputpassword';
 import { InputText } from 'primeng/inputtext';
-import { ValidationMessageService } from '../core/validation-message.service';
+import { ValidationMessageService } from '../foundation/validation-message.service';
 import { Eye } from '@primeicons/angular/eye';
 import { EyeSlash } from '@primeicons/angular/eye-slash';
-import { APP_VARIANT } from '../core/input-config';
-import { getDirection } from '../core/utils';
+import { APP_VARIANT } from '../foundation/input-config';
+import { createUniqueId, getDirection } from '../foundation/utils';
 import { PIcon } from '@primeicons/angular/p-icon';
 /**
  * Reusable input component built on Angular 22 Signal Forms.
@@ -50,23 +50,27 @@ import { PIcon } from '@primeicons/angular/p-icon';
     EyeSlash,
   ],
 })
-export class Input {
-  mask: boolean = true;
+export class AppInput {
+  readonly mask = signal(true);
 
-  dir = computed(() => getDirection(this.fieldState().value()));
+  readonly dir = computed<'rtl' | 'ltr'>(() => {
+    const currentType = this.type();
+    if (currentType === 'email' || currentType === 'password' || currentType === 'number') {
+      return 'ltr';
+    }
+    return getDirection(this.fieldState().value());
+  });
 
   // ── Injections ──
   private readonly validationService = inject(ValidationMessageService);
+  private readonly uid = createUniqueId('input');
 
   // ── Required Inputs ──
 
   /**
    * The Signal Forms field to bind to this input.
-   *
-   * Typed as `Field<any>` because this is a multi-type wrapper component.
-   * Type safety is enforced at the form definition level, not here.
    */
-  readonly field = input.required<Field<any>>();
+  readonly field = input.required<Field<string | number | null | undefined>>();
 
   // ── Optional Inputs ──
 
@@ -98,7 +102,7 @@ export class Input {
   readonly isDecimalNumber = input(false);
 
   /** PrimeNG FloatLabel variant. */
-  readonly variant = computed(() => APP_VARIANT());
+  readonly variant = input(inject(APP_VARIANT));
 
   // ── Outputs ──
 
@@ -110,7 +114,7 @@ export class Input {
   /** Unique ID for this input instance, used for label association and aria attributes. */
   readonly inputId = computed(() => {
     const state = this.fieldState();
-    return `input_${state.name()}`;
+    return `input_${state.name()}_${this.uid}`;
   });
 
   /** Error message ID for aria-describedby association. */
@@ -154,3 +158,6 @@ export class Input {
     this.keyEnter.emit();
   }
 }
+
+export { AppInput as Input };
+

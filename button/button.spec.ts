@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Button } from './button';
+import { AppButton } from './button';
 
-describe('Button', () => {
-  let component: Button;
-  let fixture: ComponentFixture<Button>;
+describe('AppButton', () => {
+  let component: AppButton;
+  let fixture: ComponentFixture<AppButton>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Button],
+      imports: [AppButton],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Button);
+    fixture = TestBed.createComponent(AppButton);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
@@ -19,3 +19,4 @@ describe('Button', () => {
     expect(component).toBeTruthy();
   });
 });
+

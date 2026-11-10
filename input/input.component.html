@@ -23,7 +23,7 @@
         [attr.placeholder]="placeholder() | translate"
         (keyup.enter)="onKeyEnter()"
         class="w-full"
-        [dir]="type() === 'number' ? 'ltr' : dir()"
+        [dir]="dir()"
       />
     }
 
@@ -32,7 +32,7 @@
       <input
         pInputPassword
         [formField]="field()"
-        [mask]="mask"
+        [mask]="mask()"
         [id]="inputId()"
         [autocomplete]="autocomplete() ?? ''"
         [class.p-filled]="hasValue()"
@@ -42,9 +42,10 @@
         [attr.placeholder]="placeholder() | translate"
         (keyup.enter)="onKeyEnter()"
         class="w-full"
+        [dir]="dir()"
       />
-      <p-inputicon (click)="mask = !mask" style="cursor: pointer">
-        @if (mask) {
+      <p-inputicon (click)="mask.update(v => !v)" style="cursor: pointer">
+        @if (mask()) {
           <svg data-p-icon="eye"></svg>
         } @else {
           <svg data-p-icon="eye-slash"></svg>

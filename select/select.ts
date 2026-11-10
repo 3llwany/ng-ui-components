@@ -4,8 +4,9 @@ import { Field, FormField, ValidationError } from '@angular/forms/signals';
 import { SelectModule } from 'primeng/select';
 import { FloatLabel } from 'primeng/floatlabel';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ValidationMessageService } from '../core/validation-message.service';
-import { APP_VARIANT } from '../core/input-config';
+import { ValidationMessageService } from '../foundation/validation-message.service';
+import { APP_VARIANT } from '../foundation/input-config';
+import { createUniqueId } from '../foundation/utils';
 
 @Component({
   imports: [SelectModule, FloatLabel, TranslatePipe, FormField, FormsModule],
@@ -24,13 +25,13 @@ import { APP_VARIANT } from '../core/input-config';
 })
 export class SelectApp<T> implements ControlValueAccessor {
   /** Optional Signal Forms Field. If provided, form validation and state are automatically bound. */
-  readonly field = input<Field<any> | undefined>(undefined);
+  readonly field = input<Field<T | null | undefined> | undefined>(undefined);
 
   /** Two-way model binding when not using Signal Forms. */
-  readonly ngModel = model<any>();
+  readonly ngModel = model<T | null | undefined>();
 
   /** Internal model value when using ControlValueAccessor. */
-  readonly modelValue = signal<any>(null);
+  readonly modelValue = signal<T | null | undefined>(null);
 
   readonly effectiveValue = computed(() => this.ngModel() ?? this.modelValue());
 
@@ -51,12 +52,12 @@ export class SelectApp<T> implements ControlValueAccessor {
   readonly showClear = input(true);
   readonly disabled = input(false);
   readonly appendTo = input<'body' | 'self'>('body');
-  readonly variant = computed(() => APP_VARIANT());
+  readonly variant = input(inject(APP_VARIANT));
 
   // ── Injections ──
   private readonly validationService = inject(ValidationMessageService);
 
-  private readonly generatedId = `select_${Math.random().toString(36).substring(2, 9)}`;
+  private readonly uid = createUniqueId('select');
 
   readonly fieldState = computed(() => {
     const f = this.field();
@@ -66,8 +67,9 @@ export class SelectApp<T> implements ControlValueAccessor {
   /** Unique ID for this input instance, used for label association and aria attributes. */
   readonly inputId = computed(() => {
     const state = this.fieldState();
-    return state ? `select_${state.name()}` : this.generatedId;
+    return state ? `select_${state.name()}_${this.uid}` : this.uid;
   });
+
 
   /** Error message ID for aria-describedby association. */
   readonly errorId = computed(() => `${this.inputId()}_error`);

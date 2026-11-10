@@ -10,12 +10,12 @@
 شغل الأوامر دي مرة واحدة بس على جهازك (مع استبدال `YOUR_REPO_URL` برابط الـ Repo الخاص بيك على GitHub):
 
 ```powershell
-git config --global alias.ui-init '!f() { dir=src/app/shared/components; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/components; fi; git subtree add --prefix=$dir https://github.com/3llwany/ng-ui-components.git main --squash; }; f'
-git config --global alias.ui-pull '!f() { dir=src/app/shared/components; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/components; fi; git subtree pull --prefix=$dir https://github.com/3llwany/ng-ui-components.git main --squash; }; f'
-git config --global alias.ui-push '!f() { dir=src/app/shared/components; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/components; fi; git subtree push --prefix=$dir https://github.com/3llwany/ng-ui-components.git main; }; f'
+git config --global alias.ui-init '!f() { dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; git subtree add --prefix=$dir https://github.com/3llwany/ng-ui-components.git main --squash; }; f'
+git config --global alias.ui-pull '!f() { dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; git subtree pull --prefix=$dir https://github.com/3llwany/ng-ui-components.git main --squash; }; f'
+git config --global alias.ui-push '!f() { dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; git subtree push --prefix=$dir https://github.com/3llwany/ng-ui-components.git main; }; f'
 git config --global alias.ui-deps '!f() { if [ -f src/frontend/package.json ]; then cd src/frontend; fi; npm i primeng @primeuix/themes primeicons @primeicons/angular tailwindcss @tailwindcss/postcss tailwindcss-primeui @ngx-translate/core @ngx-translate/http-loader; }; f'
-git config --global --% alias.ui-add "!f() { if [ $# -eq 0 ]; then echo 'Usage: git ui-add <component> (e.g. button, input, select, datepicker, switch, back-btn)'; return 1; fi; dir=src/app/shared/components; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/components; fi; mkdir -p \"$dir\"; git fetch https://github.com/3llwany/ng-ui-components.git main --quiet; git archive FETCH_HEAD core \"$@\" | tar -x -C \"$dir\"; echo \"Done! Added [core + $*] into $dir\"; }; f"
-git config --global alias.ui-list '!f() { git fetch https://github.com/3llwany/ng-ui-components.git main --quiet; echo "Available UI components:"; git ls-tree -d --name-only FETCH_HEAD | grep -v "^core$"; }; f'
+git config --global --% alias.ui-add "!f() { if [ $# -eq 0 ]; then echo 'Usage: git ui-add <component> (e.g. button, input, select, datepicker, switch, back-btn)'; return 1; fi; dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; mkdir -p \"$dir\"; git fetch https://github.com/3llwany/ng-ui-components.git main --quiet; git archive FETCH_HEAD foundation \"$@\" | tar -x -C \"$dir\"; echo \"Done! Added [foundation + $*] into $dir\"; }; f"
+git config --global alias.ui-list '!f() { git fetch https://github.com/3llwany/ng-ui-components.git main --quiet; echo "Available UI components:"; git ls-tree -d --name-only FETCH_HEAD | grep -v "^foundation$"; }; f'
 ```
 
 ### 📋 ملخص كل الأوامر المتاحة (في أي مشروع):
@@ -23,7 +23,7 @@ git config --global alias.ui-list '!f() { git fetch https://github.com/3llwany/n
 | الكومند | وظيفته |
 | :--- | :--- |
 | **`git ui-list`** | يعرضلك أسماء كل الكومبوننتس المتاحة في الـ Repo على GitHub |
-| **`git ui-add <name>`** | ينزلك كومبوننت واحد (أو أكتر) بالاسم + فولدر `core` فقط (مثال: `git ui-add button` , `git ui-add button input select`)) |
+| **`git ui-add <name>`** | ينزلك كومبوننت واحد (أو أكتر) بالاسم + فولدر `foundation` فقط (مثال: `git ui-add button` , `git ui-add button input select`)) |
 | **`git ui-init`** | ينزلك **كل** الكومبوننتس دفعة واحدة ويربط الفولدر بـ `git subtree` |
 | **`git ui-pull`** | يعمل Upgrade ويسحب آخر التحديثات من الـ Repo |
 | **`git ui-push`** | يرفع أي كومبوننت جديد أو تعديل عملته للـ Repo الأساسي |
@@ -36,7 +36,7 @@ git config --global alias.ui-list '!f() { git fetch https://github.com/3llwany/n
    ```
 2. **أو تنزيل كومبوننت واحد (أو أكتر) بالاسم (بنفس فكرة shadcn):**
    ```powershell
-   # تنزيل كومبوننت واحد بس (بينزل معاه فولدر core تلقائياً)
+   # تنزيل كومبوننت واحد بس (بينزل معاه فولدر foundation تلقائياً)
    git ui-add button
 
    # أو تنزيل أكتر من كومبوننت مع بعض
@@ -82,7 +82,7 @@ git config --global alias.ui-list '!f() { git fetch https://github.com/3llwany/n
   }
   .p-datepicker {
     .p-inputtext {
-      @apply rtl:border-l-0! ltr:border-r-0!;
+      @apply border-e-0!;
     }
   }
 }
@@ -99,7 +99,7 @@ git config --global alias.ui-list '!f() { git fetch https://github.com/3llwany/n
 
 ```ts
 import { providePrimeNG } from 'primeng/config';
-import { UiThemePreset } from './shared/components';
+import { UiThemePreset } from './shared/ui';
 
 export const appConfig: ApplicationConfig = {
   providers: [

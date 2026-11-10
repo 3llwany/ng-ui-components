@@ -10,7 +10,8 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Field, FormField, ValidationError } from '@angular/forms/signals';
-import { ValidationMessageService } from '../core/validation-message.service';
+import { ValidationMessageService } from '../foundation/validation-message.service';
+import { createUniqueId } from '../foundation/utils';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
@@ -29,10 +30,10 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 })
 export class AppSwitch implements ControlValueAccessor {
   /** Optional Signal Forms Field. If provided, form validation and state are automatically bound. */
-  readonly field = input<Field<any> | undefined>(undefined);
+  readonly field = input<Field<boolean | null | undefined> | undefined>(undefined);
 
   /** Two-way model binding when not using Signal Forms. */
-  readonly ngModel = model<boolean | any>();
+  readonly ngModel = model<boolean | null | undefined>();
 
   /** Internal model value when using ControlValueAccessor. */
   readonly modelValue = signal<boolean>(false);
@@ -67,7 +68,7 @@ export class AppSwitch implements ControlValueAccessor {
   // ── Injections ──
   private readonly validationService = inject(ValidationMessageService);
 
-  private readonly generatedId = `switch_${Math.random().toString(36).substring(2, 9)}`;
+  private readonly uid = createUniqueId('switch');
 
   readonly fieldState = computed(() => {
     const f = this.field();
@@ -77,8 +78,9 @@ export class AppSwitch implements ControlValueAccessor {
   /** Unique ID for this input instance, used for label association and aria attributes. */
   readonly inputId = computed(() => {
     const state = this.fieldState();
-    return state ? `switch_${state.name()}` : this.generatedId;
+    return state ? `switch_${state.name()}_${this.uid}` : this.uid;
   });
+
 
   /** Error message ID for aria-describedby association. */
   readonly errorId = computed(() => `${this.inputId()}_error`);

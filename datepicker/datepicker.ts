@@ -1,8 +1,9 @@
 import { Component, computed, inject, input, output, forwardRef, signal, model } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { Field, FormField, ValidationError } from '@angular/forms/signals';
-import { ValidationMessageService } from '../core/validation-message.service';
-import { APP_VARIANT } from '../core/input-config';
+import { ValidationMessageService } from '../foundation/validation-message.service';
+import { APP_VARIANT } from '../foundation/input-config';
+import { createUniqueId } from '../foundation/utils';
 import { FloatLabel } from 'primeng/floatlabel';
 import { DatePickerModule } from 'primeng/datepicker';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -17,20 +18,20 @@ import { TranslatePipe } from '@ngx-translate/core';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => Datepicker),
+      useExisting: forwardRef(() => AppDatepicker),
       multi: true,
     },
   ],
 })
-export class Datepicker implements ControlValueAccessor {
+export class AppDatepicker implements ControlValueAccessor {
   /** Optional Signal Forms Field. If provided, form validation and state are automatically bound. */
-  readonly field = input<Field<any> | undefined>(undefined);
+  readonly field = input<Field<Date | string | null | undefined> | undefined>(undefined);
 
   /** Two-way model binding when not using Signal Forms. */
-  readonly ngModel = model<any>();
+  readonly ngModel = model<Date | string | null | undefined>();
 
   /** Internal model value when using ControlValueAccessor. */
-  readonly modelValue = signal<any>(null);
+  readonly modelValue = signal<Date | string | null | undefined>(null);
 
   readonly effectiveValue = computed(() => this.ngModel() ?? this.modelValue());
 
@@ -45,12 +46,12 @@ export class Datepicker implements ControlValueAccessor {
   readonly showIcon = input(true);
   readonly appendTo = input<'body' | 'self'>('body');
   readonly dateFormat = input<string>('yy-mm-dd');
-  readonly variant = computed(() => APP_VARIANT());
+  readonly variant = input(inject(APP_VARIANT));
 
   // ── Injections ──
   private readonly validationService = inject(ValidationMessageService);
 
-  private readonly generatedId = `datepicker_${Math.random().toString(36).substring(2, 9)}`;
+  private readonly uid = createUniqueId('datepicker');
 
   readonly fieldState = computed(() => {
     const f = this.field();
@@ -60,7 +61,7 @@ export class Datepicker implements ControlValueAccessor {
   /** Unique ID for this input instance, used for label association and aria attributes. */
   readonly inputId = computed(() => {
     const state = this.fieldState();
-    return state ? `datepicker_${state.name()}` : this.generatedId;
+    return state ? `datepicker_${state.name()}_${this.uid}` : this.uid;
   });
 
   /** Error message ID for aria-describedby association. */
@@ -110,5 +111,8 @@ export class Datepicker implements ControlValueAccessor {
     this.onChange.emit(val);
   }
 }
+
+export { AppDatepicker as Datepicker };
+
 
 

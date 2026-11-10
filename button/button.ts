@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { PIcon } from '@primeicons/angular/p-icon';
-import { BaseButton } from '../core/base-button';
+import { BaseButton } from '../foundation/base-button';
 import { ButtonDirective } from 'primeng/button';
 
 @Component({
-  imports: [ButtonDirective, TranslatePipe,  PIcon],
+  imports: [ButtonDirective, TranslatePipe, PIcon],
   selector: 'app-button',
   templateUrl: './button.html',
   styles: [
@@ -16,4 +16,7 @@ import { ButtonDirective } from 'primeng/button';
     `,
   ],
 })
-export class Button extends BaseButton {}
+export class AppButton extends BaseButton {}
+
+export { AppButton as Button };
+
