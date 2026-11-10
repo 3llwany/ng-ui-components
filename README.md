@@ -7,7 +7,7 @@
 ## 1. تنزيل الكومبوننتس في أي مشروع جديد (أوتوماتيك)
 
 ### أول مرة على جهازك (إعداد الـ Git Aliases):
-شغل الأوامر دي مرة واحدة بس على جهازك (مع استبدال `YOUR_REPO_URL` برابط الـ Repo الخاص بيك على GitHub):
+شغل الأوامر دي مرة واحدة بس على جهازك:
 
 ```powershell
 git config --global alias.ui-init '!f() { dir=src/app/shared/ui; if [ -d src/frontend/src/app ]; then dir=src/frontend/src/app/shared/ui; fi; git subtree add --prefix=$dir https://github.com/3llwany/ng-ui-components.git main --squash; }; f'
