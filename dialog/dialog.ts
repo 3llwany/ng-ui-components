@@ -43,3 +43,4 @@ export class AppDialog {
   /** Custom style class applied to the dialog panel. */
   readonly styleClass = input<string>('w-full max-w-lg');
 }
+

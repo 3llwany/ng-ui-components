@@ -31,3 +31,4 @@ export class AppCard {
   /** Optional custom CSS classes on the card root. */
   readonly styleClass = input<string>('');
 }
+

@@ -25,3 +25,4 @@ A generic modal dialog component wrapping PrimeNG `p-dialog` with two-way `[(vis
 | `modal` | `boolean` | `true` | Enables modal backdrop. |
 | `closable` | `boolean` | `true` | Shows header close button. |
 | `styleClass` | `string` | `'w-full max-w-lg'` | Dialog container CSS classes. |
+

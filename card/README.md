@@ -22,3 +22,4 @@ A generic container card component wrapping PrimeNG `p-card` with translated hea
 | `header` | `string` | `''` | Translation key for the card title. |
 | `subheader` | `string` | `''` | Translation key for the card subtitle. |
 | `styleClass` | `string` | `''` | Additional CSS classes. |
+
