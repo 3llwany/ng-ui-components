@@ -45,4 +45,4 @@ export class AppDialog {
 }
 
 export { AppDialog as Dialog };
-export { DialogService, type ModalDialogOptions } from './dialog.service';
+export { DialogService, DynamicDialogRef, type ModalDialogOptions } from './dialog.service';

@@ -6,6 +6,7 @@ import {
 } from 'primeng/dynamicdialog';
 import { firstValueFrom } from 'rxjs';
 
+export { DynamicDialogRef };
 export interface ModalDialogOptions<TData = unknown> {
   readonly header?: string;
   readonly width?: string;
