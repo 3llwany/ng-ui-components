@@ -13,6 +13,7 @@ export class BaseButton {
   icon = input<string | null>(null);
   disabled = input<boolean>(false);
   iconPos = input<'left' | 'right'>('right');
+  directionalIcon = input<boolean>(false);
   styleClass = input<string | null>();
   severity = input<ButtonSeverity>('primary');
   loading = input<boolean>(false);

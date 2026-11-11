@@ -129,11 +129,13 @@ export const appConfig: ApplicationConfig = {
 | **`select`** | `AppSelect` | `<app-select>` | `./shared/ui/select/select` |
 | **`datepicker`** | `AppDatepicker` | `<app-datepicker>` | `./shared/ui/datepicker/datepicker` |
 | **`switch`** | `AppSwitch` | `<app-switch>` | `./shared/ui/switch/switch` |
+| **`card`** | `AppCard` | `<app-card>` | `./shared/ui/card/card` |
+| **`dialog`** | `AppDialog` | `<app-dialog>` | `./shared/ui/dialog/dialog` |
 | **`back-btn`** | `AppBackBtn` | `<app-back-btn>` | `./shared/ui/back-btn/back-btn` |
 
 ```ts
 // تقدر تستورد كل الكومبوننتس اللي نزلتها من الفولدر مباشرة (سواء بـ ui-add أو ui-init):
-import { AppInput, AppButton, AppSelect, AppDatepicker, AppSwitch, AppBackBtn } from './shared/ui';
+import { AppInput, AppButton, AppSelect, AppDatepicker, AppSwitch, AppCard, AppDialog, AppBackBtn } from './shared/ui';
 ```
 
 ---

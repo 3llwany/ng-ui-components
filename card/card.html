@@ -1,0 +1,12 @@
+<p-card
+  [header]="header() ? (header() | translate) : undefined"
+  [subheader]="subheader() ? (subheader() | translate) : undefined"
+  [class]="'block w-full ' + styleClass()"
+>
+  <div class="text-start">
+    <ng-content />
+  </div>
+  <div class="mt-4 pt-3 border-t border-slate-100 empty:hidden text-start">
+    <ng-content select="[cardFooter]" />
+  </div>
+</p-card>

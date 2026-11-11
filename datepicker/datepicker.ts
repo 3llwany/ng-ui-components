@@ -25,13 +25,13 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class AppDatepicker implements ControlValueAccessor {
   /** Optional Signal Forms Field. If provided, form validation and state are automatically bound. */
-  readonly field = input<Field<Date | string | null | undefined> | undefined>(undefined);
+  readonly field = input<Field<Date | Date[] | null | undefined> | undefined>(undefined);
 
   /** Two-way model binding when not using Signal Forms. */
-  readonly ngModel = model<Date | string | null | undefined>();
+  readonly ngModel = model<Date | Date[] | null | undefined>();
 
   /** Internal model value when using ControlValueAccessor. */
-  readonly modelValue = signal<Date | string | null | undefined>(null);
+  readonly modelValue = signal<Date | Date[] | null | undefined>(null);
 
   readonly effectiveValue = computed(() => this.ngModel() ?? this.modelValue());
 

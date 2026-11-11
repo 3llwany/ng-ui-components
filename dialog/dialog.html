@@ -1,0 +1,17 @@
+<p-dialog
+  [(visible)]="visible"
+  [header]="header() ? (header() | translate) : undefined"
+  [modal]="modal()"
+  [closable]="closable()"
+  [draggable]="draggable()"
+  [resizable]="resizable()"
+  [closeAriaLabel]="closeAriaLabel() ? (closeAriaLabel() | translate) : undefined"
+  [styleClass]="styleClass()"
+>
+  <div class="text-start">
+    <ng-content />
+  </div>
+  <div class="mt-4 flex justify-end gap-2 empty:hidden">
+    <ng-content select="[dialogFooter]" />
+  </div>
+</p-dialog>

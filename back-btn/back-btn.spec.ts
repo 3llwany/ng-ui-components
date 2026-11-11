@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTranslateService } from '@ngx-translate/core';
 import { AppBackBtn } from './back-btn';
 
 describe('AppBackBtn', () => {
@@ -8,6 +9,7 @@ describe('AppBackBtn', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppBackBtn],
+      providers: [provideTranslateService()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppBackBtn);
@@ -19,4 +21,5 @@ describe('AppBackBtn', () => {
     expect(component).toBeTruthy();
   });
 });
+
 

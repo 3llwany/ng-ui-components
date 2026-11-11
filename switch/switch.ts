@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  DOCUMENT,
   forwardRef,
   inject,
   input,
@@ -17,7 +18,6 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 @Component({
   selector: 'app-switch',
-  standalone: true,
   imports: [ToggleSwitchModule, FormField, FormsModule, TranslatePipe],
   templateUrl: './switch.html',
   providers: [
@@ -66,6 +66,7 @@ export class AppSwitch implements ControlValueAccessor {
   });
 
   // ── Injections ──
+  private readonly document = inject(DOCUMENT);
   private readonly validationService = inject(ValidationMessageService);
 
   private readonly uid = createUniqueId('switch');
@@ -133,7 +134,7 @@ export class AppSwitch implements ControlValueAccessor {
   toggle(): void {
     if (this.disabled() || this.isDisabled()) return;
 
-    const el = document.getElementById(this.inputId());
+    const el = this.document.getElementById(this.inputId());
     if (el) {
       el.click();
     } else {

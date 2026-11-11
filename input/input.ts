@@ -70,7 +70,12 @@ export class AppInput {
   /**
    * The Signal Forms field to bind to this input.
    */
-  readonly field = input.required<Field<string | number | null | undefined>>();
+  readonly field = input.required<
+    Field<string>,
+    Field<string> | Field<number | null> | Field<number>
+  >({
+    transform: (v) => v as unknown as Field<string>,
+  });
 
   // ── Optional Inputs ──
 
@@ -148,7 +153,7 @@ export class AppInput {
 
   /** Whether the field has a value (for PrimeNG filled state). */
   readonly hasValue = computed(() => {
-    const val = this.fieldState().value();
+    const val: unknown = this.fieldState().value();
     return val !== '' && val !== null && val !== undefined;
   });
 

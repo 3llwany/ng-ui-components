@@ -13,14 +13,20 @@
   <!-- NOTE: prefix Icon -->
   <!-- <ng-content select="[prefixIcon]"></ng-content> -->
   @if (iconPos() === 'left' && icon() !== null) {
-    <svg class="w-4! h-4!" [pIcon]="icon()!"></svg>
+    <svg
+      [class]="'w-4! h-4!' + (directionalIcon() ? ' inline-block rtl:scale-x-[-1]' : '')"
+      [pIcon]="icon()!"
+    ></svg>
   }
 
   {{ label() | translate }}
 
   <!-- NOTE: suffix Icon -->
   @if (iconPos() === 'right' && icon() !== null) {
-    <svg class="w-4! h-4!" [pIcon]="icon()!"></svg>
+    <svg
+      [class]="'w-4! h-4!' + (directionalIcon() ? ' inline-block rtl:scale-x-[-1]' : '')"
+      [pIcon]="icon()!"
+    ></svg>
   }
   <!-- <ng-content select="[suffixIcon]"></ng-content> -->
 </button>
