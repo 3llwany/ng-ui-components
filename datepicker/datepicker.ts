@@ -112,6 +112,7 @@ export class AppDatepicker implements ControlValueAccessor {
   }
 }
 
+export { AppDatepicker as Datepicker };
 
 
 

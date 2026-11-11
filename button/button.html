@@ -1,6 +1,10 @@
 <button
   pButton
-  [class]="'w-full py-3! rounded-xl! font-bold border-none ' + (styleClass() ?? '')"
+  [class]="
+    'w-full py-3! rounded-xl! font-bold' +
+    (outlined() || variant() === 'outlined' ? '' : 'border-none ') +
+    (styleClass() ?? '')
+  "
   [severity]="severity()"
   [variant]="variant()"
   [rounded]="rounded()"

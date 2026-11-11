@@ -143,3 +143,5 @@ export class AppSwitch implements ControlValueAccessor {
     }
   }
 }
+
+export { AppSwitch as Switch };

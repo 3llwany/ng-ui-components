@@ -21,4 +21,3 @@ describe('AppCard', () => {
     expect(component).toBeTruthy();
   });
 });
-

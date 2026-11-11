@@ -32,3 +32,4 @@ export class AppCard {
   readonly styleClass = input<string>('');
 }
 
+export { AppCard as Card };

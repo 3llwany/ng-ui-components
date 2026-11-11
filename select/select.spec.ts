@@ -24,5 +24,3 @@ describe('AppSelect', () => {
     expect(component).toBeTruthy();
   });
 });
-
-

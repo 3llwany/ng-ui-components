@@ -44,3 +44,5 @@ export class AppDialog {
   readonly styleClass = input<string>('w-full max-w-lg');
 }
 
+export { AppDialog as Dialog };
+export { DialogService, type ModalDialogOptions } from './dialog.service';

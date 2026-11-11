@@ -18,4 +18,4 @@ import { ButtonDirective } from 'primeng/button';
 })
 export class AppButton extends BaseButton {}
 
-
+export { AppButton as Button };

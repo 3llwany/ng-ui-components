@@ -164,4 +164,5 @@ export class AppInput {
   }
 }
 
+export { AppInput as Input };
 

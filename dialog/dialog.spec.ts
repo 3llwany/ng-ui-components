@@ -21,4 +21,3 @@ describe('AppDialog', () => {
     expect(component).toBeTruthy();
   });
 });
-

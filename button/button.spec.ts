@@ -22,5 +22,3 @@ describe('AppButton', () => {
     expect(component).toBeTruthy();
   });
 });
-
-

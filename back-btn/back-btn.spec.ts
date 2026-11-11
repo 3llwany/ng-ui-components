@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTranslateService } from '@ngx-translate/core';
-import { AppBackBtn } from './back-btn';
+import { BackBtn } from './back-btn';
 
-describe('AppBackBtn', () => {
-  let component: AppBackBtn;
-  let fixture: ComponentFixture<AppBackBtn>;
+describe('BackBtn', () => {
+  let component: BackBtn;
+  let fixture: ComponentFixture<BackBtn>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppBackBtn],
+      imports: [BackBtn],
       providers: [provideTranslateService()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AppBackBtn);
+    fixture = TestBed.createComponent(BackBtn);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
@@ -21,5 +21,3 @@ describe('AppBackBtn', () => {
     expect(component).toBeTruthy();
   });
 });
-
-

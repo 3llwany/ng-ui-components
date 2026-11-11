@@ -7,27 +7,23 @@ import {
   forwardRef,
   signal,
   model,
-} from "@angular/core";
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-  FormsModule,
-} from "@angular/forms";
-import { Field, FormField, ValidationError } from "@angular/forms/signals";
-import { SelectModule } from "primeng/select";
-import { FloatLabel } from "primeng/floatlabel";
-import { TranslatePipe } from "@ngx-translate/core";
-import { ValidationMessageService } from "../foundation/validation-message.service";
-import { APP_VARIANT } from "../foundation/input-config";
-import { createUniqueId } from "../foundation/utils";
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
+import { Field, FormField, ValidationError } from '@angular/forms/signals';
+import { SelectModule } from 'primeng/select';
+import { FloatLabel } from 'primeng/floatlabel';
+import { TranslatePipe } from '@ngx-translate/core';
+import { ValidationMessageService } from '../foundation/validation-message.service';
+import { APP_VARIANT } from '../foundation/input-config';
+import { createUniqueId } from '../foundation/utils';
 
 @Component({
   imports: [SelectModule, FloatLabel, TranslatePipe, FormField, FormsModule],
-  selector: "app-select",
+  selector: 'app-select',
   host: {
-    class: "block w-full",
+    class: 'block w-full',
   },
-  templateUrl: "./select.html",
+  templateUrl: './select.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -36,7 +32,7 @@ import { createUniqueId } from "../foundation/utils";
     },
   ],
 })
-export class AppSelect<T = any> implements ControlValueAccessor {
+export class AppSelect<T> implements ControlValueAccessor {
   /** Optional Signal Forms Field. If provided, form validation and state are automatically bound. */
   readonly field = input<Field<T | null | undefined> | undefined>(undefined);
 
@@ -52,24 +48,24 @@ export class AppSelect<T = any> implements ControlValueAccessor {
   readonly onChange = output<any>();
 
   /** Translation key for the floating label. */
-  readonly label = input<string>("");
-  readonly styleClass = input<string>("");
+  readonly label = input<string>('');
+  readonly styleClass = input<string>('');
   readonly options = input.required<T[]>();
   readonly optionLabel = input.required<string>();
   readonly optionValue = input.required<string>();
-  readonly placeholder = input<string>("");
+  readonly placeholder = input<string>('');
   readonly loading = input(false);
   readonly multiple = input(false);
   readonly filter = input(true);
   readonly showClear = input(true);
   readonly disabled = input(false);
-  readonly appendTo = input<"body" | "self">("body");
+  readonly appendTo = input<'body' | 'self'>('body');
   readonly variant = input(inject(APP_VARIANT));
 
   // ── Injections ──
   private readonly validationService = inject(ValidationMessageService);
 
-  private readonly uid = createUniqueId("select");
+  private readonly uid = createUniqueId('select');
 
   readonly fieldState = computed(() => {
     const f = this.field();
@@ -97,8 +93,7 @@ export class AppSelect<T = any> implements ControlValueAccessor {
     const state = this.fieldState();
     if (!state) return null;
 
-    const errors: readonly ValidationError.WithOptionalFieldTree[] =
-      state.errors();
+    const errors: readonly ValidationError.WithOptionalFieldTree[] = state.errors();
     return this.validationService.getFirstMessage(errors);
   });
 
@@ -130,3 +125,5 @@ export class AppSelect<T = any> implements ControlValueAccessor {
     this.onChange.emit(val);
   }
 }
+
+export { AppSelect as Select };

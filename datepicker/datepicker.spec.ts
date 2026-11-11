@@ -21,5 +21,3 @@ describe('AppDatepicker', () => {
     expect(component).toBeTruthy();
   });
 });
-
-
