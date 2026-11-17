@@ -1,4 +1,4 @@
-import { inject, Injectable, Injector, runInInjectionContext, Type } from '@angular/core';
+import { inject, Service, Injector, runInInjectionContext, Type } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import {
   DialogService as PrimeDialogService,
@@ -23,9 +23,7 @@ export interface ModalDialogOptions<TData = unknown> {
  * Programmatic dynamic dialog service wrapping PrimeNG DialogService.
  * Allows opening modal components dynamically from code without template boilerplate.
  */
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class DialogService {
   private readonly primeDialog =
     inject(PrimeDialogService, { optional: true }) ??
