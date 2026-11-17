@@ -1,0 +1,28 @@
+<div
+  [class]="
+    'flex flex-col items-center justify-center text-center py-12 px-4 text-surface-500 dark:text-surface-400 ' +
+    styleClass()
+  "
+>
+  @if (icon()) {
+    <div
+      class="w-14 h-14 rounded-full bg-surface-100 dark:bg-surface-800 flex items-center justify-center mb-3"
+    >
+      <svg class="w-7! h-7!" [pIcon]="icon()"></svg>
+    </div>
+  }
+
+  <p class="text-base font-semibold text-surface-700 dark:text-surface-200 m-0">
+    {{ title() | translate }}
+  </p>
+
+  @if (description()) {
+    <p class="text-sm text-surface-500 dark:text-surface-400 mt-1 max-w-md m-0">
+      {{ description() | translate }}
+    </p>
+  }
+
+  <div class="mt-4 empty:hidden">
+    <ng-content />
+  </div>
+</div>

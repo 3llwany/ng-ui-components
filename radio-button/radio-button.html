@@ -1,0 +1,48 @@
+<div [class]="'flex items-center gap-2.5 ' + styleClass()">
+  @if (field(); as f) {
+    <p-radiobutton
+      [formField]="f"
+      [value]="value()"
+      [name]="effectiveName()"
+      [inputId]="inputId()"
+      [disabled]="disabled() || isDisabled()"
+      [invalid]="showError()"
+      (onClick)="onFieldSelect()"
+    />
+  } @else {
+    <p-radiobutton
+      [inputId]="inputId()"
+      [name]="effectiveName()"
+      [value]="value()"
+      [ngModel]="effectiveValue()"
+      (ngModelChange)="onValueChange($event)"
+      [ngModelOptions]="{ standalone: true }"
+      [disabled]="disabled() || isDisabled()"
+      (onBlur)="onTouchedCb()"
+    />
+  }
+
+  <label [for]="inputId()" class="flex items-center gap-2 cursor-pointer select-none flex-1">
+    <div class="flex flex-col gap-0.5">
+      @if (label()) {
+        <span class="text-sm font-medium">{{ label() | translate }}</span>
+      }
+      @if (description()) {
+        <span class="text-xs text-surface-500 dark:text-surface-400">
+          {{ description() | translate }}
+        </span>
+      }
+    </div>
+
+    @if (img(); as imgSrc) {
+      <img [src]="imgSrc" alt="" class="w-6 h-6 object-contain shrink-0 ms-auto" />
+    }
+    @if (icon(); as iconName) {
+      <svg class="w-4! h-4! shrink-0 ms-auto" [pIcon]="iconName"></svg>
+    }
+  </label>
+</div>
+
+@if (showValidation() && showError()) {
+  <app-field-error [errorId]="errorId()" [message]="errorMessage()" />
+}

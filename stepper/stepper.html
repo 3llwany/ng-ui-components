@@ -1,0 +1,53 @@
+<div [class]="'flex flex-col gap-6 ' + styleClass()">
+  <p-stepper
+    [value]="activeStep()"
+    (valueChange)="onStepperValueChange($event)"
+    [linear]="linear()"
+  >
+    <p-step-list>
+      @for (step of normalizedSteps(); track step.value) {
+        <p-step [value]="step.value" [disabled]="step.disabled ?? false">
+          {{ step.label | translate }}
+        </p-step>
+      }
+    </p-step-list>
+  </p-stepper>
+
+  <div class="stepper-content">
+    <ng-content />
+  </div>
+
+  @if (showFooter()) {
+    <div
+      class="flex items-center justify-between gap-4 pt-4 border-t border-surface-200 dark:border-surface-700"
+    >
+      <button
+        pButton
+        type="button"
+        severity="secondary"
+        [outlined]="true"
+        class="px-5 py-2.5 rounded-xl font-semibold"
+        (click)="previousStep()"
+      >
+        <svg class="w-4! h-4! inline-block rtl:scale-x-[-1]" pIcon="chevron-left"></svg>
+        <span>{{ (isFirstStep() ? backLabel() : previousLabel()) | translate }}</span>
+      </button>
+
+      <button
+        pButton
+        type="button"
+        class="px-6 py-2.5 rounded-xl font-semibold"
+        [disabled]="nextDisabled() || loading()"
+        [loading]="loading()"
+        (click)="nextStep()"
+      >
+        <span>{{ (isLastStep() ? finishLabel() : nextLabel()) | translate }}</span>
+        @if (isLastStep()) {
+          <svg class="w-4! h-4!" pIcon="check-circle"></svg>
+        } @else {
+          <svg class="w-4! h-4! inline-block rtl:scale-x-[-1]" pIcon="chevron-right"></svg>
+        }
+      </button>
+    </div>
+  }
+</div>

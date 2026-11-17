@@ -1,0 +1,51 @@
+<p-floatlabel [variant]="variant()">
+  @if (field(); as f) {
+    <textarea
+      pTextarea
+      [formField]="f"
+      [id]="inputId()"
+      [rows]="rows()"
+      [cols]="cols()"
+      [autoResize]="autoResize()"
+      [readonly]="isReadonly()"
+      [class]="'w-full ' + styleClass()"
+      [class.p-filled]="hasValue()"
+      [class.p-invalid]="showError()"
+      [attr.aria-invalid]="showError()"
+      [attr.aria-describedby]="showError() ? errorId() : null"
+      [attr.placeholder]="placeholder() ? (placeholder() | translate) : null"
+      [dir]="dir()"
+      (keyup.enter)="onKeyEnter()"
+    ></textarea>
+  } @else {
+    <textarea
+      pTextarea
+      [id]="inputId()"
+      [name]="inputId()"
+      [ngModel]="effectiveValue()"
+      (ngModelChange)="onValueChange($event)"
+      [ngModelOptions]="{ standalone: true }"
+      [rows]="rows()"
+      [cols]="cols()"
+      [autoResize]="autoResize()"
+      [disabled]="disabled() || isDisabled()"
+      [readonly]="isReadonly()"
+      [class]="'w-full ' + styleClass()"
+      [class.p-filled]="hasValue()"
+      [attr.placeholder]="placeholder() ? (placeholder() | translate) : null"
+      [dir]="dir()"
+      (blur)="onTouchedCb()"
+      (keyup.enter)="onKeyEnter()"
+    ></textarea>
+  }
+
+  @if (label()) {
+    <label [for]="inputId()">
+      {{ label() | translate }}
+    </label>
+  }
+</p-floatlabel>
+
+@if (showError()) {
+  <app-field-error [errorId]="errorId()" [message]="errorMessage()" />
+}

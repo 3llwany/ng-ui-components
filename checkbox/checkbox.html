@@ -1,0 +1,46 @@
+<div [class]="'flex items-start gap-2.5 ' + styleClass()">
+  @if (field(); as f) {
+    <p-checkbox
+      [formField]="f"
+      [inputId]="inputId()"
+      [binary]="binary()"
+      [value]="value()"
+      [indeterminate]="indeterminate()"
+      [disabled]="disabled() || isDisabled()"
+      [readonly]="readonly()"
+      [invalid]="showError()"
+      (onChange)="onPrimeChange($event)"
+    />
+  } @else {
+    <p-checkbox
+      [inputId]="inputId()"
+      [name]="inputId()"
+      [ngModel]="effectiveValue()"
+      (ngModelChange)="onValueChange($event)"
+      [ngModelOptions]="{ standalone: true }"
+      [binary]="binary()"
+      [value]="value()"
+      [indeterminate]="indeterminate()"
+      [disabled]="disabled() || isDisabled()"
+      [readonly]="readonly()"
+      (onBlur)="onTouchedCb()"
+    />
+  }
+
+  @if (label() || description()) {
+    <label [for]="inputId()" class="flex flex-col gap-0.5 cursor-pointer select-none leading-snug">
+      @if (label()) {
+        <span class="text-sm font-medium">{{ label() | translate }}</span>
+      }
+      @if (description()) {
+        <span class="text-xs text-surface-500 dark:text-surface-400">
+          {{ description() | translate }}
+        </span>
+      }
+    </label>
+  }
+</div>
+
+@if (showError()) {
+  <app-field-error [errorId]="errorId()" [message]="errorMessage()" />
+}
