@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   forwardRef,
@@ -31,7 +30,6 @@ import { ValidationMessageService } from '../foundation/validation-message.servi
     class: 'block w-full',
   },
   templateUrl: './checkbox.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslatePipe, Checkbox, FormField, FormsModule, AppFieldError],
   providers: [
     {

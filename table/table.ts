@@ -1,6 +1,5 @@
 import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   contentChildren,
@@ -84,7 +83,6 @@ export class AppTableColDirective {
     PIcon,
   ],
   templateUrl: './table.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppTable<T = Record<string, unknown>> {
   /** Table rows to display. */

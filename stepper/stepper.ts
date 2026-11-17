@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -40,7 +39,6 @@ export interface StepperStep {
   },
   imports: [Stepper, StepList, Step, ButtonDirective, PIcon, TranslatePipe],
   templateUrl: './stepper.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppStepper {
   /** Ordered list of steps to display. */

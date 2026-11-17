@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   forwardRef,
@@ -33,7 +32,6 @@ import { ValidationMessageService } from '../foundation/validation-message.servi
     class: 'block w-full',
   },
   templateUrl: './textarea.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslatePipe, FormField, FormsModule, Textarea, FloatLabel, AppFieldError],
   providers: [
     {

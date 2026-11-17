@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 
 /**
@@ -7,7 +7,6 @@ import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-field-error',
   imports: [TranslatePipe],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (message(); as msg) {
       <div

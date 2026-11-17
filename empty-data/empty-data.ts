@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { PIcon } from '@primeicons/angular/p-icon';
 
@@ -19,7 +19,6 @@ import { PIcon } from '@primeicons/angular/p-icon';
   },
   imports: [TranslatePipe, PIcon],
   templateUrl: './empty-data.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppEmptyData {
   /** Translation key for the main empty-state message. */

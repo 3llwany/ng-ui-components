@@ -1,10 +1,10 @@
-import { inject, Service, Injector, runInInjectionContext, Type } from '@angular/core';
+import { inject, Injector, runInInjectionContext, Service, Type } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import {
   DialogService as PrimeDialogService,
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
-import { firstValueFrom } from 'rxjs';
+import { translateText } from '../foundation/utils';
 
 export { DynamicDialogRef };
 export interface ModalDialogOptions<TData = unknown> {
@@ -34,7 +34,7 @@ export class DialogService {
     component: Type<TComponent>,
     options?: ModalDialogOptions<TData>,
   ): Promise<DynamicDialogRef | null> {
-    const header = options?.header ? await this.translateText(options.header) : undefined;
+    const header = options?.header ? await translateText(this.translate, options.header) : undefined;
 
     return this.primeDialog.open(component, {
       header,
@@ -65,14 +65,5 @@ export class DialogService {
       });
     });
   }
-
-  private async translateText(keyOrText: string): Promise<string> {
-    if (!this.translate) return keyOrText;
-    try {
-      const translated = await firstValueFrom(this.translate.get(keyOrText));
-      return translated || keyOrText;
-    } catch {
-      return keyOrText;
-    }
-  }
 }
+

@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   forwardRef,
@@ -32,7 +31,6 @@ import { ValidationMessageService } from '../foundation/validation-message.servi
     class: 'block',
   },
   templateUrl: './radio-button.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslatePipe, RadioButton, FormField, FormsModule, PIcon, AppFieldError],
   providers: [
     {

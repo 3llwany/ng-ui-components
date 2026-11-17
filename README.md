@@ -169,6 +169,15 @@ import {
 } from './shared/ui';
 ```
 
+> **تنبيه للأداء (Initial Bundle):**
+> استخدام `from './shared/ui'` (`index.ts`) مناسب داخل الميزات الـ lazy-loaded، لكن للخدمات أو الإعدادات المحقونة في `app.config.ts` أو الـ Root Interceptors يُفضّل الاستيراد المباشر من ملفها الخفيف لتجنب سحب مكونات PrimeNG في الـ initial bundle:
+> ```ts
+> import { UiThemePreset } from './shared/ui/foundation/theme-preset';
+> import { ToastService } from './shared/ui/toast/toast.service';
+> import { ConfirmService } from './shared/ui/confirm/confirm.service';
+> import { DialogService } from './shared/ui/dialog/dialog.service';
+> ```
+
 ---
 
 ## 4. التحديث وإضافة كومبوننتس جديدة
